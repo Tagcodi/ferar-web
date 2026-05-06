@@ -59,11 +59,37 @@ const faqs = [
   ['Where does Ferar operate?', 'Ferar is focused on motorcycle delivery across Addis Ababa.'],
   ['How does pricing work?', 'The estimate depends on distance, package size, urgency, and route conditions.'],
   ['Can I track my delivery?', 'Yes. Ferar is built around request, rider assignment, pickup, transit, and arrival status updates.'],
+  ['How do riders join?', 'Riders can contact Ferar, prepare ID, license, vehicle details, and complete verification before accepting delivery offers.'],
+  ['Who do I contact for support?', 'Email hello@ferar.systems with your delivery route, account role, or question so the team can direct it quickly.'],
+]
+
+const termsItems = [
+  ['Service use', 'Ferar is a public launch service for customers requesting motorcycle deliveries and verified riders fulfilling accepted delivery jobs.'],
+  ['Delivery requests', 'Customers should provide accurate pickup, drop-off, recipient, package, and contact details. Ferar may decline unsafe, restricted, or unclear requests.'],
+  ['Pricing and payment', 'Fare estimates may consider distance, route conditions, package size, urgency, and available riders. Final payment terms will be confirmed before full public launch.'],
+  ['Rider responsibilities', 'Riders must keep documents accurate, follow applicable road rules, handle packages with care, and update delivery status honestly.'],
+  ['Cancellations and support', 'Eligible cancellations, failed handoffs, complaints, refunds, and support processes will be handled through Ferar support channels.'],
+  ['Launch placeholder', 'These terms are launch-ready placeholder terms and should be reviewed by legal counsel before final production use.'],
+]
+
+const privacyItems = [
+  ['Information collected', 'Ferar may collect account contact details, delivery addresses, recipient details, package notes, rider profile documents, support messages, and payment or payout records.'],
+  ['Location and delivery data', 'Ferar uses pickup, drop-off, route, and status information to estimate fares, match riders, track deliveries, and support handoffs.'],
+  ['How information is used', 'Information is used to operate the service, verify riders, communicate updates, improve safety, provide support, prevent misuse, and prepare payment or payout workflows.'],
+  ['Sharing', 'Relevant delivery details may be shared between customers, riders, recipients, service providers, and authorities when required for safety, operations, support, or legal compliance.'],
+  ['Retention and choices', 'Ferar keeps records only as needed for operations, security, support, accounting, and legal obligations. Users may contact support about access, correction, or deletion requests.'],
+  ['Launch placeholder', 'This privacy notice is concise placeholder copy for launch and should be reviewed by legal counsel before final production use.'],
 ]
 
 const floatTransition = { duration: 5.5, repeat: Infinity, ease: 'easeInOut' }
 
 function App() {
+  const route = window.location.pathname.replace(/\/$/, '') || '/'
+
+  if (route === '/terms') return <StandaloneLegalPage type="terms" />
+  if (route === '/privacy') return <StandaloneLegalPage type="privacy" />
+  if (route === '/faq') return <StandaloneFaqPage />
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#fffdf7] text-ink">
       <Hero />
@@ -75,6 +101,30 @@ function App() {
       <FinalCTA />
       <Footer />
     </main>
+  )
+}
+
+function Navigation({ compact = false }) {
+  return (
+    <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 sm:px-8">
+      <a href="/" className="group flex items-center gap-3" aria-label="Ferar home">
+        <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-ink font-display text-xl font-black text-primary shadow-[0_18px_36px_rgba(24,23,20,0.16)] transition group-hover:-rotate-6">
+          F<span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-primary" />
+        </span>
+        <span className="font-display text-2xl font-black tracking-[-0.04em]">Ferar</span>
+      </a>
+      <div className="hidden items-center gap-5 rounded-full border border-ink/10 bg-white/70 px-5 py-3 text-sm font-extrabold text-ink/65 shadow-sm backdrop-blur md:flex">
+        <a className="hover:text-ink" href="/#journeys">Journeys</a>
+        <a className="hover:text-ink" href="/#how">How it works</a>
+        <a className="hover:text-ink" href="/#pricing">Pricing</a>
+        <a className="hover:text-ink" href="/faq">FAQ</a>
+        <a className="hover:text-ink" href="/terms">Terms</a>
+        <a className="hover:text-ink" href="/privacy">Privacy</a>
+      </div>
+      <a className="rounded-full bg-ink px-5 py-3 text-sm font-black text-white shadow-[0_14px_32px_rgba(24,23,20,0.18)] transition hover:-translate-y-0.5 hover:bg-[#2c2a22]" href={compact ? '/#start' : '#start'}>
+        Get started
+      </a>
+    </nav>
   )
 }
 
@@ -97,24 +147,7 @@ function Hero() {
         Addis Ababa delivery grid
       </motion.div>
 
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 sm:px-8">
-        <a href="#top" className="group flex items-center gap-3" aria-label="Ferar home">
-          <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-ink font-display text-xl font-black text-primary shadow-[0_18px_36px_rgba(24,23,20,0.16)] transition group-hover:-rotate-6">
-            F<span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-primary" />
-          </span>
-          <span className="font-display text-2xl font-black tracking-[-0.04em]">Ferar</span>
-        </a>
-        <div className="hidden items-center gap-5 rounded-full border border-ink/10 bg-white/70 px-5 py-3 text-sm font-extrabold text-ink/65 shadow-sm backdrop-blur md:flex">
-          <a className="hover:text-ink" href="#journeys">Journeys</a>
-          <a className="hover:text-ink" href="#how">How it works</a>
-          <a className="hover:text-ink" href="#pricing">Pricing</a>
-          <a className="hover:text-ink" href="#safety">Safety</a>
-          <a className="hover:text-ink" href="#help">Help</a>
-        </div>
-        <a className="rounded-full bg-ink px-5 py-3 text-sm font-black text-white shadow-[0_14px_32px_rgba(24,23,20,0.18)] transition hover:-translate-y-0.5 hover:bg-[#2c2a22]" href="#start">
-          Get started
-        </a>
-      </nav>
+      <Navigation />
 
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 pb-20 pt-8 sm:px-8 lg:grid-cols-[1.02fr_0.98fr] lg:pb-28 lg:pt-14">
         <motion.div variants={stagger} initial="hidden" animate="visible">
@@ -312,7 +345,6 @@ function LaunchPages() {
       <SafetyPage />
       <HelpPage />
       <ContactPage />
-      <PolicyPages />
     </>
   )
 }
@@ -389,9 +421,14 @@ function SafetyPage() {
 
 function HelpPage() {
   return (
-    <PageShell id="help" eyebrow="Help" title="Answers for launch questions." dark>
-      <InfoGrid items={faqs} dark />
-      <motion.a variants={fadeUp} className="mt-10 inline-flex rounded-full bg-primary px-7 py-4 font-black text-ink shadow-[0_14px_35px_rgba(255,214,10,.18)] transition hover:-translate-y-1" href="#contact">Contact support</motion.a>
+    <PageShell id="help" eyebrow="Help" title="Support for delivery, rider, and business questions." dark>
+      <motion.div variants={fadeUp} className="mt-14 rounded-[2.5rem] border border-white/10 bg-white/[0.07] p-8 shadow-[0_24px_80px_rgba(24,23,20,0.08)]">
+        <p className="max-w-3xl text-lg font-semibold leading-8 text-white/64">Find quick launch answers on the dedicated FAQ page, or contact Ferar support with your route, role, or question.</p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a className="inline-flex rounded-full bg-primary px-7 py-4 font-black text-ink shadow-[0_14px_35px_rgba(255,214,10,.18)] transition hover:-translate-y-1" href="/faq">Open FAQ</a>
+          <a className="inline-flex rounded-full border border-white/15 bg-white px-7 py-4 font-black text-ink shadow-sm transition hover:-translate-y-1" href="#contact">Contact support</a>
+        </div>
+      </motion.div>
     </PageShell>
   )
 }
@@ -413,12 +450,52 @@ function ContactPage() {
   )
 }
 
-function PolicyPages() {
+function StandaloneShell({ eyebrow, title, intro, children, dark = false }) {
   return (
-    <section className="mx-auto grid max-w-7xl gap-6 px-5 py-24 sm:px-8 lg:grid-cols-2 lg:py-32">
-      <PolicyBlock id="terms" title="Terms" text="Public launch terms will cover delivery requests, rider use, payments, cancellations, prohibited items, support processes, and acceptable use of the Ferar service." />
-      <PolicyBlock id="privacy" title="Privacy" text="Public launch privacy details will explain how Ferar handles contact details, location information, delivery data, account data, support records, and related service communications." />
-    </section>
+    <main className={`min-h-screen overflow-hidden ${dark ? 'bg-ink text-white' : 'bg-[#fffdf7] text-ink'}`}>
+      <section className="relative isolate bg-white text-ink">
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(115deg,#ffffff_0%,#ffffff_62%,#fff2a3_62%,#ffd60a_100%)]" />
+        <Navigation compact />
+        <motion.div className="mx-auto max-w-7xl px-5 pb-20 pt-10 sm:px-8 lg:pb-28 lg:pt-16" initial="hidden" animate="visible" variants={stagger}>
+          <motion.p variants={fadeUp} className="mb-6 inline-flex rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-black uppercase tracking-[0.22em] text-[#b28d00] shadow-sm">{eyebrow}</motion.p>
+          <motion.h1 variants={fadeUp} className="max-w-4xl font-display text-6xl font-black leading-[0.88] tracking-[-0.075em] text-ink sm:text-8xl">{title}</motion.h1>
+          <motion.p variants={fadeUp} className="mt-7 max-w-3xl text-lg font-semibold leading-8 text-ink/62 sm:text-xl">{intro}</motion.p>
+        </motion.div>
+      </section>
+      {children}
+      <Footer />
+    </main>
+  )
+}
+
+function StandaloneLegalPage({ type }) {
+  const isTerms = type === 'terms'
+  const items = isTerms ? termsItems : privacyItems
+  return (
+    <StandaloneShell
+      eyebrow={isTerms ? 'Legal' : 'Privacy'}
+      title={isTerms ? 'Terms of Service' : 'Privacy Notice'}
+      intro={isTerms ? 'Concise launch terms for Ferar customers and verified riders.' : 'How Ferar plans to handle public customer and rider information at launch.'}
+    >
+      <section className="px-5 py-24 sm:px-8 lg:py-32">
+        <motion.div className="mx-auto max-w-7xl" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger}>
+          <InfoGrid items={items} />
+        </motion.div>
+      </section>
+    </StandaloneShell>
+  )
+}
+
+function StandaloneFaqPage() {
+  return (
+    <StandaloneShell eyebrow="FAQ" title="Frequently asked launch questions." intro="Quick public answers for Ferar customers, recipients, and verified riders." dark>
+      <section className="bg-ink px-5 py-24 text-white sm:px-8 lg:py-32">
+        <motion.div className="mx-auto max-w-7xl" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger}>
+          <InfoGrid items={faqs} dark />
+          <motion.a variants={fadeUp} className="mt-10 inline-flex rounded-full bg-primary px-7 py-4 font-black text-ink shadow-[0_14px_35px_rgba(255,214,10,.18)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Ferar support question">Contact support</motion.a>
+        </motion.div>
+      </section>
+    </StandaloneShell>
   )
 }
 
@@ -461,16 +538,6 @@ function InfoGrid({ items, dark = false }) {
   )
 }
 
-function PolicyBlock({ id, title, text }) {
-  return (
-    <motion.article id={id} className="rounded-[2.5rem] bg-[#fff8cf] p-8 text-ink shadow-[0_24px_80px_rgba(24,23,20,0.08)]" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }}>
-      <p className="text-sm font-black uppercase tracking-[0.24em] text-ink/55">Legal</p>
-      <h2 className="mt-3 font-display text-4xl font-black tracking-[-0.05em]">{title}</h2>
-      <p className="mt-4 font-semibold leading-8 text-ink/64">{text}</p>
-    </motion.article>
-  )
-}
-
 function FinalCTA() {
   return (
     <section id="start" className="px-5 pb-14 sm:px-8">
@@ -496,9 +563,10 @@ function Footer() {
     <footer className="mx-auto flex max-w-7xl flex-col gap-3 border-t border-ink/10 px-5 py-10 text-sm font-bold text-ink/50 sm:flex-row sm:items-center sm:justify-between sm:px-8">
       <p>© 2026 Ferar.</p>
       <div className="flex flex-wrap gap-4">
-        <a className="hover:text-ink" href="#contact">Contact</a>
-        <a className="hover:text-ink" href="#terms">Terms</a>
-        <a className="hover:text-ink" href="#privacy">Privacy</a>
+        <a className="hover:text-ink" href="/#contact">Contact</a>
+        <a className="hover:text-ink" href="/faq">FAQ</a>
+        <a className="hover:text-ink" href="/terms">Terms</a>
+        <a className="hover:text-ink" href="/privacy">Privacy</a>
       </div>
     </footer>
   )
