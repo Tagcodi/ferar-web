@@ -38,14 +38,14 @@ const benefits = [
 
 function App() {
   return (
-    <main className="min-h-screen bg-[#fffdf3] text-[#181714]">
-      <section className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,214,10,0.42),transparent_36%),linear-gradient(135deg,#fffdf3_0%,#fff7c7_46%,#f7f2de_100%)]" />
-        <div className="absolute right-0 top-0 -z-10 h-full w-1/2 bg-[#ffd60a]/20 blur-3xl" />
+    <main className="min-h-screen bg-white text-[#181714]">
+      <section className="relative isolate overflow-hidden bg-white">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,214,10,0.24),transparent_34%),linear-gradient(135deg,#ffffff_0%,#ffffff_58%,#fff9d8_100%)]" />
+        <div className="absolute right-0 top-0 -z-10 h-full w-1/2 bg-[#ffd60a]/10 blur-3xl" />
 
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-8">
           <a href="#top" className="flex items-center gap-3" aria-label="Ferar home">
-            <span className="grid size-11 place-items-center rounded-full bg-[#181714] text-lg font-black text-[#ffd60a] shadow-[0_14px_40px_rgba(24,23,20,0.18)]">
+            <span className="grid size-11 place-items-center rounded-full bg-[#ffd60a] text-lg font-black text-[#181714] shadow-[0_14px_40px_rgba(255,214,10,0.28)]">
               F
             </span>
             <span className="text-xl font-black tracking-tight">Ferar</span>
@@ -55,7 +55,7 @@ function App() {
             <a className="transition hover:text-black" href="#benefits">Benefits</a>
             <a className="transition hover:text-black" href="#start">Start</a>
           </div>
-          <a className="rounded-full bg-[#181714] px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-black" href="#start">
+          <a className="rounded-full bg-[#ffd60a] px-5 py-3 text-sm font-black text-[#181714] shadow-[0_12px_30px_rgba(255,214,10,0.28)] transition hover:-translate-y-0.5 hover:bg-[#ffdf3d]" href="#start">
             Start a delivery
           </a>
         </nav>
@@ -83,7 +83,7 @@ function App() {
 
           <div className="relative">
             <div className="absolute -inset-6 rounded-[3rem] bg-[#ffd60a]/40 blur-3xl" />
-            <figure className="relative overflow-hidden rounded-[2.5rem] bg-[#181714] shadow-[0_32px_90px_rgba(24,23,20,0.28)]">
+            <figure className="relative overflow-hidden rounded-[2.5rem] border border-[#181714]/10 bg-white shadow-[0_32px_90px_rgba(24,23,20,0.14)]">
               <img
                 className="h-[560px] w-full object-cover opacity-90"
                 src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1400&q=85"
@@ -128,17 +128,18 @@ function App() {
         </div>
       </section>
 
-      <section id="benefits" className="bg-[#181714] px-6 py-20 text-white lg:px-8 lg:py-28">
+      <section id="benefits" className="border-y border-[#181714]/10 bg-white px-6 py-20 text-[#181714] lg:px-8 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ffd60a]">Why Ferar</p>
+            <p className="text-sm font-black uppercase tracking-[0.24em] text-[#b28d00]">Why Ferar</p>
             <h2 className="mt-4 text-4xl font-black tracking-[-0.04em] sm:text-6xl">Fast motorcycle delivery, designed around customers.</h2>
           </div>
-          <div className="space-y-8">
+          <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-1">
             {benefits.map((benefit) => (
-              <article key={benefit.title} className="border-l-4 border-[#ffd60a] pl-6">
+              <article key={benefit.title} className="rounded-[1.75rem] border border-[#181714]/10 bg-white p-6 shadow-[0_20px_60px_rgba(24,23,20,0.08)]">
+                <span className="mb-5 block h-1.5 w-14 rounded-full bg-[#ffd60a]" />
                 <h3 className="text-2xl font-black">{benefit.title}</h3>
-                <p className="mt-2 text-lg leading-8 text-white/70">{benefit.text}</p>
+                <p className="mt-2 text-lg leading-8 text-[#5f5948]">{benefit.text}</p>
               </article>
             ))}
           </div>
@@ -151,7 +152,7 @@ function App() {
           <div className="relative max-w-3xl">
             <h2 className="text-4xl font-black tracking-[-0.04em] sm:text-6xl">Ready to send something?</h2>
             <p className="mt-5 text-lg font-semibold leading-8 text-[#4d493d]">Use Ferar for quick, simple motorcycle delivery across the city.</p>
-            <a className="mt-8 inline-flex rounded-full bg-[#181714] px-8 py-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-black" href="mailto:hello@ferar.systems">
+            <a className="mt-8 inline-flex rounded-full bg-white px-8 py-4 font-black text-[#181714] shadow-[0_14px_35px_rgba(24,23,20,0.12)] transition hover:-translate-y-0.5 hover:bg-[#fff9d8]" href="mailto:hello@ferar.systems">
               Request delivery
             </a>
           </div>
