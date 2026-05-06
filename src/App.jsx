@@ -1,245 +1,309 @@
 import { motion } from 'framer-motion'
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 34 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 }
 
 const stagger = {
-  visible: { transition: { staggerChildren: 0.12 } },
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.11, delayChildren: 0.08 } },
 }
 
-const heroBullets = [
-  'Fare and time estimates before you request',
-  'Verified riders with managed onboarding',
-  'Delivery status updates from pickup to completion',
-  'ETB wallet, promos, and support built in',
+const customerJourney = [
+  ['Request', 'Pickup, drop-off, recipient details, and package size.'],
+  ['Estimate', 'Ferar previews distance, ETB fare, and delivery time.'],
+  ['Track', 'Watch requested, assigned, picked up, in transit, and delivered states.'],
+  ['Confirm', 'OTP/PIN proof, rating, feedback, and optional tip after completion.'],
 ]
 
-const customerBenefits = [
-  'Saved addresses',
-  'Fare/time estimate',
-  'Delivery status tracking',
-  'Cancel eligible deliveries before pickup',
-  'Promo/referral support',
-  'Rating and feedback after delivery',
+const riderJourney = [
+  ['Verify', 'Phone sign-in, profile, vehicle, ID, license, and payout documents.'],
+  ['Go online', 'Set availability in Addis Ababa and receive delivery offers.'],
+  ['Deliver', 'Accept or decline jobs and update pickup-to-drop-off progress.'],
+  ['Earn', 'Review wallet balance, incentives, delivery earnings, and payouts.'],
 ]
 
-const riderBenefits = [
-  'Phone sign-in',
-  'Rider profile and city setup',
-  'Vehicle registration',
-  'Document verification',
-  'Online/offline availability',
-  'Accept or decline offers',
-  'Earnings and payout requests',
-  'Incentives',
+const proofPoints = [
+  ['Fare clarity', 'Customers see estimated fare and time before a delivery is requested.'],
+  ['Verified riders', 'Riders complete profile, vehicle, and document checks before approval.'],
+  ['Live workflow', 'Status updates keep both sides aligned from pickup through delivery.'],
+  ['Payout ready', 'Riders can track earnings, wallet activity, incentives, and payout requests.'],
 ]
 
-const customerSteps = [
-  ['01', 'Sign in with your phone', 'Use OTP-based login to access your customer account.'],
-  ['02', 'Add pickup and drop-off details', 'Enter addresses, recipient info, and package size.'],
-  ['03', 'Check the estimate', 'Ferar calculates distance, estimated fare, and estimated delivery time in ETB.'],
-  ['04', 'Request your delivery', 'Your request enters the delivery workflow and riders can be matched.'],
-  ['05', 'Track progress', 'Follow statuses like requested, rider assigned, picked up, in transit, and delivered.'],
-  ['06', 'Confirm and rate', 'After completion, rate the delivery, leave feedback, and optionally tip.'],
+const steps = [
+  ['01', 'Create the delivery', 'The customer adds pickup/drop-off addresses, recipient details, package size, and delivery notes.'],
+  ['02', 'Review the estimate', 'Ferar calculates estimated distance, delivery time, and ETB fare before the request is submitted.'],
+  ['03', 'Match a rider', 'Approved riders who are online can receive the offer and choose to accept or decline it.'],
+  ['04', 'Move through statuses', 'The rider updates assigned, picked up, in transit, delivered, or cancelled when eligible.'],
+  ['05', 'Finish with proof', 'Completion can include photo, signature, OTP/PIN proof, rating, feedback, and tip support.'],
 ]
 
-const riderSteps = [
-  ['01', 'Create your rider account', 'Sign in by phone and set up your rider profile.'],
-  ['02', 'Register your vehicle', 'Add make, model, and plate number.'],
-  ['03', 'Upload verification documents', 'Submit ID, driver’s license, vehicle registration, profile photo, and payout account documents.'],
-  ['04', 'Wait for approval', 'Your documents are reviewed before approval.'],
-  ['05', 'Go online', 'Set availability to online when ready to receive delivery offers.'],
-  ['06', 'Accept and complete deliveries', 'Accept offers, update pickup/transit/delivery status, and submit proof such as photo, signature, or PIN where required.'],
-  ['07', 'Track earnings and request payouts', 'View wallet balance, delivery earnings, and payout history.'],
-]
+const floatTransition = { duration: 5.5, repeat: Infinity, ease: 'easeInOut' }
 
 function App() {
   return (
-    <main className="min-h-screen overflow-hidden bg-white text-[#181714]">
-      <section className="relative isolate bg-white">
-        <motion.div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,rgba(255,214,10,0.34),transparent_28%),radial-gradient(circle_at_85%_18%,rgba(255,214,10,0.16),transparent_26%),linear-gradient(135deg,#ffffff_0%,#ffffff_62%,#fff8cf_100%)]"
-          animate={{ backgroundPosition: ['0% 0%', '8% 10%', '0% 0%'] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          aria-hidden="true"
-          className="absolute -right-24 top-28 -z-10 size-80 rounded-full bg-[#ffd60a]/30 blur-3xl"
-          animate={{ y: [0, 24, 0], scale: [1, 1.08, 1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        />
-
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-8">
-          <a href="#top" className="group flex items-center gap-3" aria-label="Ferar home">
-            <span className="grid size-11 place-items-center rounded-full bg-[#ffd60a] text-lg font-black text-[#181714] shadow-[0_14px_40px_rgba(255,214,10,0.32)] transition group-hover:rotate-6">
-              F
-            </span>
-            <span className="text-xl font-black tracking-tight">Ferar</span>
-          </a>
-          <div className="hidden items-center gap-8 text-sm font-semibold text-[#4d493d] md:flex">
-            <a className="transition hover:text-black" href="#customers">Customers</a>
-            <a className="transition hover:text-black" href="#riders">Riders</a>
-            <a className="transition hover:text-black" href="#how">How it works</a>
-          </div>
-          <a className="rounded-full bg-[#ffd60a] px-5 py-3 text-sm font-black text-[#181714] shadow-[0_12px_30px_rgba(255,214,10,0.28)] transition hover:-translate-y-0.5 hover:bg-[#ffdf3d]" href="#start">
-            Request a delivery
-          </a>
-        </nav>
-
-        <div id="top" className="mx-auto grid max-w-7xl items-center gap-12 px-6 pb-20 pt-8 lg:grid-cols-[0.92fr_1.08fr] lg:px-8 lg:pb-28 lg:pt-16">
-          <motion.div variants={stagger} initial="hidden" animate="visible">
-            <motion.p variants={fadeUp} className="mb-5 inline-flex rounded-full border border-[#181714]/10 bg-white/75 px-4 py-2 text-sm font-bold text-[#4d493d] shadow-sm backdrop-blur">
-              On-demand motorcycle delivery in Addis Ababa
-            </motion.p>
-            <motion.h1 variants={fadeUp} className="max-w-4xl text-5xl font-black leading-[0.94] tracking-[-0.055em] text-[#181714] sm:text-7xl lg:text-8xl">
-              Fast motorcycle delivery across Addis Ababa
-            </motion.h1>
-            <motion.p variants={fadeUp} className="mt-7 max-w-2xl text-lg leading-8 text-[#5f5948] sm:text-xl">
-              Request a rider, send your package, and follow every step from pickup to drop-off — powered by Ferar’s delivery and rider network.
-            </motion.p>
-            <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-4 sm:flex-row">
-              <a className="rounded-full bg-[#ffd60a] px-8 py-4 text-center font-black text-[#181714] shadow-[0_18px_45px_rgba(255,214,10,0.45)] transition hover:-translate-y-0.5 hover:bg-[#ffdf3d]" href="#customers">
-                Request a delivery
-              </a>
-              <a className="rounded-full border border-[#181714]/15 bg-white/70 px-8 py-4 text-center font-black text-[#181714] backdrop-blur transition hover:-translate-y-0.5 hover:bg-white" href="#riders">
-                Become a rider
-              </a>
-            </motion.div>
-            <motion.ul variants={fadeUp} className="mt-8 grid gap-3 text-sm font-bold text-[#4d493d] sm:grid-cols-2">
-              {heroBullets.map((bullet) => (
-                <li key={bullet} className="flex gap-2"><span className="text-[#b28d00]">✓</span>{bullet}</li>
-              ))}
-            </motion.ul>
-          </motion.div>
-
-          <motion.div className="relative" initial={{ opacity: 0, scale: 0.94, y: 24 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.8, ease: 'easeOut' }}>
-            <div className="absolute -inset-6 rounded-[3rem] bg-[#ffd60a]/40 blur-3xl" />
-            <figure className="relative overflow-hidden rounded-[2.5rem] border border-[#181714]/10 bg-white shadow-[0_32px_90px_rgba(24,23,20,0.14)]">
-              <img className="h-[560px] w-full object-cover opacity-90" src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1400&q=85" alt="Motorcycle rider moving through a city street" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#181714]/80 via-[#181714]/10 to-transparent" />
-              <motion.div className="absolute bottom-6 left-6 right-6 rounded-[1.75rem] border border-white/20 bg-white/95 p-5 text-[#181714] shadow-2xl backdrop-blur md:left-auto md:w-84" animate={{ y: [0, -8, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}>
-                <p className="text-sm font-bold text-[#6b6244]">Delivery status and location updates</p>
-                <div className="mt-3 flex items-center justify-between gap-4">
-                  <div>
-                    <h2 className="text-2xl font-black">Pickup → Drop-off</h2>
-                    <p className="mt-1 text-sm font-semibold text-[#6b6244]">Clear for customers and riders</p>
-                  </div>
-                  <span className="rounded-full bg-[#ffd60a] px-4 py-2 text-sm font-black">ETB</span>
-                </div>
-              </motion.div>
-            </figure>
-          </motion.div>
-        </div>
-      </section>
-
-      <AudienceSection
-        id="customers"
-        eyebrow="For customers and clients"
-        title="Send packages without the back-and-forth"
-        intro="Ferar helps customers request motorcycle delivery from one address to another. Add pickup and drop-off details, recipient information, and package size, then get an estimated fare before creating the request."
-        benefits={customerBenefits}
-        cta="Start a delivery request"
-        ctaHref="#start"
-      />
-
-      <AudienceSection
-        id="riders"
-        eyebrow="For riders and drivers"
-        title="Earn by completing deliveries in your city"
-        intro="Ferar gives riders a structured way to receive delivery offers, accept jobs, update delivery progress, and manage earnings. Riders create a profile, register their vehicle, upload verification documents, and go online when ready to work."
-        benefits={riderBenefits}
-        cta="Apply to ride with Ferar"
-        ctaHref="#start"
-        flipped
-      />
-
-      <section id="how" className="border-y border-[#181714]/10 bg-[#fffdf2] px-6 py-20 text-[#181714] lg:px-8 lg:py-28">
-        <motion.div className="mx-auto max-w-7xl" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger}>
-          <motion.div variants={fadeUp} className="max-w-3xl">
-            <p className="text-sm font-black uppercase tracking-[0.24em] text-[#b28d00]">How it works</p>
-            <h2 className="mt-4 text-4xl font-black tracking-[-0.04em] sm:text-6xl">Simple steps from request to completion.</h2>
-          </motion.div>
-          <div className="mt-12 grid gap-10 lg:grid-cols-2">
-            <StepsList title="Customers" steps={customerSteps} />
-            <StepsList title="Riders" steps={riderSteps} />
-          </div>
-        </motion.div>
-      </section>
-
-      <section id="start" className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
-        <motion.div className="relative overflow-hidden rounded-[2.5rem] bg-[#ffd60a] p-8 shadow-[0_30px_80px_rgba(255,214,10,0.35)] sm:p-12 lg:p-16" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.65 }}>
-          <div className="absolute -right-16 -top-16 size-64 rounded-full bg-white/35" />
-          <div className="absolute -bottom-24 right-24 size-52 rounded-full bg-white/25" />
-          <div className="relative max-w-3xl">
-            <h2 className="text-4xl font-black tracking-[-0.04em] sm:text-6xl">Move with Ferar</h2>
-            <div className="mt-6 grid gap-4 text-lg font-semibold leading-8 text-[#4d493d] sm:grid-cols-2">
-              <p>Need to send something across the city?</p>
-              <p>Ready to earn with your motorcycle?</p>
-            </div>
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <a className="inline-flex justify-center rounded-full bg-white px-8 py-4 font-black text-[#181714] shadow-[0_14px_35px_rgba(24,23,20,0.12)] transition hover:-translate-y-0.5 hover:bg-[#fff9d8]" href="mailto:hello@ferar.systems?subject=Delivery request">
-                Request a delivery
-              </a>
-              <a className="inline-flex justify-center rounded-full border border-[#181714]/15 bg-[#181714] px-8 py-4 font-black text-white shadow-[0_14px_35px_rgba(24,23,20,0.12)] transition hover:-translate-y-0.5 hover:bg-[#2a281f]" href="mailto:hello@ferar.systems?subject=Rider interest">
-                Become a Ferar rider
-              </a>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      <footer className="mx-auto flex max-w-7xl flex-col gap-3 border-t border-[#181714]/10 px-6 py-10 text-sm font-semibold text-[#6b6244] sm:flex-row sm:items-center sm:justify-between lg:px-8">
-        <p>© 2026 Ferar.</p>
-        <p>On-demand motorcycle delivery in Addis Ababa.</p>
-      </footer>
+    <main className="min-h-screen overflow-hidden bg-[#fffdf7] text-ink">
+      <Hero />
+      <TrustStrip />
+      <JourneySection />
+      <HowItWorks />
+      <FeatureRail />
+      <FinalCTA />
+      <Footer />
     </main>
   )
 }
 
-function AudienceSection({ id, eyebrow, title, intro, benefits, cta, ctaHref, flipped = false }) {
+function Hero() {
   return (
-    <section id={id} className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
-      <motion.div className={`grid gap-12 lg:grid-cols-2 lg:items-center ${flipped ? 'lg:[&>*:first-child]:order-2' : ''}`} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.28 }} variants={stagger}>
-        <motion.div variants={fadeUp}>
-          <p className="text-sm font-black uppercase tracking-[0.24em] text-[#b28d00]">{eyebrow}</p>
-          <h2 className="mt-4 text-4xl font-black tracking-[-0.04em] sm:text-6xl">{title}</h2>
-          <p className="mt-5 text-lg leading-8 text-[#5f5948]">{intro}</p>
-          <a className="mt-8 inline-flex rounded-full bg-[#ffd60a] px-7 py-4 font-black text-[#181714] shadow-[0_14px_35px_rgba(255,214,10,0.32)] transition hover:-translate-y-0.5 hover:bg-[#ffdf3d]" href={ctaHref}>
-            {cta}
-          </a>
+    <section id="top" className="relative isolate bg-white">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(115deg,#ffffff_0%,#ffffff_58%,#fff2a3_58%,#ffd60a_100%)]" />
+      <motion.div
+        aria-hidden="true"
+        className="absolute left-[-10rem] top-24 -z-10 h-80 w-80 rounded-full bg-primary/35 blur-3xl"
+        animate={{ scale: [1, 1.18, 1], x: [0, 24, 0] }}
+        transition={floatTransition}
+      />
+      <motion.div
+        aria-hidden="true"
+        className="absolute right-12 top-24 hidden rounded-full border border-ink/10 bg-white/60 px-5 py-2 text-sm font-black uppercase tracking-[0.28em] text-ink/55 backdrop-blur lg:block"
+        animate={{ y: [0, -12, 0], rotate: [-2, 2, -2] }}
+        transition={{ ...floatTransition, duration: 7 }}
+      >
+        Addis Ababa delivery grid
+      </motion.div>
+
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 sm:px-8">
+        <a href="#top" className="group flex items-center gap-3" aria-label="Ferar home">
+          <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-ink font-display text-xl font-black text-primary shadow-[0_18px_36px_rgba(24,23,20,0.16)] transition group-hover:-rotate-6">
+            F<span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-primary" />
+          </span>
+          <span className="font-display text-2xl font-black tracking-[-0.04em]">Ferar</span>
+        </a>
+        <div className="hidden items-center gap-7 rounded-full border border-ink/10 bg-white/70 px-5 py-3 text-sm font-extrabold text-ink/65 shadow-sm backdrop-blur md:flex">
+          <a className="hover:text-ink" href="#journeys">Journeys</a>
+          <a className="hover:text-ink" href="#how">How it works</a>
+          <a className="hover:text-ink" href="#features">Features</a>
+        </div>
+        <a className="rounded-full bg-ink px-5 py-3 text-sm font-black text-white shadow-[0_14px_32px_rgba(24,23,20,0.18)] transition hover:-translate-y-0.5 hover:bg-[#2c2a22]" href="#start">
+          Get started
+        </a>
+      </nav>
+
+      <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 pb-20 pt-8 sm:px-8 lg:grid-cols-[1.02fr_0.98fr] lg:pb-28 lg:pt-14">
+        <motion.div variants={stagger} initial="hidden" animate="visible">
+          <motion.p variants={fadeUp} className="mb-6 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-black text-ink/65 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_0_6px_rgba(255,214,10,0.22)]" />
+            Customer delivery + verified rider network
+          </motion.p>
+          <motion.h1 variants={fadeUp} className="font-display text-6xl font-black leading-[0.86] tracking-[-0.075em] text-ink sm:text-8xl lg:text-[7.4rem]">
+            City delivery that feels sharp, fast, and clear.
+          </motion.h1>
+          <motion.p variants={fadeUp} className="mt-7 max-w-2xl text-lg font-medium leading-8 text-ink/62 sm:text-xl">
+            Ferar helps customers request motorcycle deliveries across Addis Ababa while verified riders accept jobs, update progress, and track earnings.
+          </motion.p>
+          <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-4 sm:flex-row">
+            <a className="rounded-full bg-primary px-8 py-4 text-center font-black text-ink shadow-[0_18px_42px_rgba(255,214,10,0.38)] transition hover:-translate-y-1 hover:bg-[#ffe45a]" href="#journeys">
+              See customer flow
+            </a>
+            <a className="rounded-full border border-ink/15 bg-white px-8 py-4 text-center font-black text-ink shadow-sm transition hover:-translate-y-1 hover:border-ink/25" href="#riders">
+              Rider journey
+            </a>
+          </motion.div>
         </motion.div>
-        <motion.div variants={fadeUp} className="rounded-[2rem] border border-[#181714]/10 bg-white p-6 shadow-[0_18px_60px_rgba(24,23,20,0.07)]">
-          <span className="mb-6 block h-1.5 w-16 rounded-full bg-[#ffd60a]" />
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {benefits.map((benefit) => (
-              <li key={benefit} className="rounded-2xl bg-[#fff8cf] px-4 py-3 text-sm font-black text-[#4d493d]">{benefit}</li>
-            ))}
-          </ul>
+
+        <motion.div className="relative min-h-[620px]" initial={{ opacity: 0, scale: 0.96, y: 24 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
+          <RouteCanvas />
+          <PhoneMockup />
         </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function RouteCanvas() {
+  return (
+    <div aria-hidden="true" className="absolute inset-0 rounded-[3rem] bg-[radial-gradient(circle_at_50%_20%,rgba(255,214,10,.55),transparent_34%),linear-gradient(160deg,#fff7bc,#ffffff_52%,#191714_52%,#191714_100%)] shadow-[0_34px_90px_rgba(24,23,20,0.16)]">
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 640 700" fill="none">
+        <motion.path d="M86 520 C178 448 132 300 266 284 C422 266 366 128 548 96" stroke="#ffd60a" strokeWidth="10" strokeLinecap="round" strokeDasharray="18 24" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2.8, ease: 'easeInOut' }} />
+        <motion.path d="M116 548 C230 500 292 574 390 474 C486 374 442 272 566 228" stroke="rgba(255,255,255,.52)" strokeWidth="2" strokeDasharray="8 12" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 3.4, delay: 0.3, ease: 'easeInOut' }} />
+        {[['86','520'], ['266','284'], ['548','96'], ['390','474']].map(([cx, cy], index) => (
+          <motion.circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="11" fill={index === 2 ? '#181714' : '#ffd60a'} stroke="white" strokeWidth="7" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.45 + index * 0.18, type: 'spring', stiffness: 220 }} />
+        ))}
+      </svg>
+      <motion.div className="absolute right-8 top-10 rounded-[1.4rem] bg-white p-4 shadow-2xl" animate={{ y: [0, -10, 0] }} transition={floatTransition}>
+        <p className="text-xs font-black uppercase tracking-[0.2em] text-ink/45">Estimate</p>
+        <p className="mt-1 font-display text-3xl font-black tracking-[-0.05em]">ETB fare</p>
+        <p className="text-sm font-bold text-ink/55">Distance + time preview</p>
+      </motion.div>
+      <motion.div className="absolute bottom-10 left-8 rounded-full bg-primary px-5 py-3 text-sm font-black text-ink shadow-2xl" animate={{ x: [0, 10, 0] }} transition={{ ...floatTransition, duration: 4.6 }}>
+        OTP confirmed
+      </motion.div>
+    </div>
+  )
+}
+
+function PhoneMockup() {
+  const statuses = ['Requested', 'Rider assigned', 'Picked up', 'In transit', 'Delivered']
+  return (
+    <motion.div className="absolute left-1/2 top-1/2 -ml-[155px] w-[310px] rounded-[2.6rem] border-[10px] border-ink bg-white p-4 shadow-[0_28px_80px_rgba(0,0,0,.32)] sm:-ml-[175px] sm:w-[350px]" animate={{ y: ['-50%', 'calc(-50% - 14px)', '-50%'] }} transition={{ ...floatTransition, duration: 6.2 }}>
+      <div className="mx-auto mb-4 h-1.5 w-20 rounded-full bg-ink/20" />
+      <div className="rounded-[2rem] bg-[#fffaf0] p-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-ink/45">Ferar live</p>
+            <h2 className="font-display text-3xl font-black tracking-[-0.05em]">Bole → Piassa</h2>
+          </div>
+          <span className="rounded-full bg-primary px-3 py-2 text-xs font-black">24 min</span>
+        </div>
+        <div className="mt-5 rounded-3xl bg-ink p-4 text-white">
+          <div className="flex items-center justify-between text-sm font-bold text-white/62"><span>Estimated fare</span><span>ETB</span></div>
+          <p className="mt-1 font-display text-4xl font-black tracking-[-0.05em]">Clear before request</p>
+        </div>
+        <ol className="mt-5 space-y-3">
+          {statuses.map((status, index) => (
+            <motion.li key={status} className="flex items-center gap-3 rounded-2xl bg-white px-3 py-2 shadow-sm" initial={{ opacity: 0.45 }} animate={{ opacity: [0.55, 1, 0.55] }} transition={{ duration: 2.8, delay: index * 0.25, repeat: Infinity }}>
+              <span className={`h-3 w-3 rounded-full ${index < 3 ? 'bg-primary' : 'bg-ink/16'}`} />
+              <span className="text-sm font-black text-ink/70">{status}</span>
+            </motion.li>
+          ))}
+        </ol>
+      </div>
+    </motion.div>
+  )
+}
+
+function TrustStrip() {
+  return (
+    <section className="relative z-10 -mt-8 px-5 sm:px-8">
+      <div className="mx-auto grid max-w-7xl gap-3 rounded-[2rem] border border-ink/10 bg-white/90 p-3 shadow-[0_20px_70px_rgba(24,23,20,0.08)] backdrop-blur md:grid-cols-4">
+        {proofPoints.map(([title, text]) => (
+          <motion.div key={title} className="rounded-[1.5rem] p-5 transition hover:bg-[#fff8cf]" whileHover={{ y: -5 }}>
+            <p className="font-display text-xl font-black tracking-[-0.04em]">{title}</p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-ink/58">{text}</p>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function JourneySection() {
+  return (
+    <section id="journeys" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32">
+      <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.22 }}>
+        <motion.div variants={fadeUp} className="max-w-3xl">
+          <p className="text-sm font-black uppercase tracking-[0.28em] text-[#b28d00]">Two sides of one city route</p>
+          <h2 className="mt-4 font-display text-5xl font-black leading-[0.92] tracking-[-0.06em] sm:text-7xl">Customers request. Riders fulfill. Ferar keeps both moving.</h2>
+        </motion.div>
+        <div className="mt-14 grid gap-6 lg:grid-cols-2" id="riders">
+          <JourneyCard title="Customer path" intro="Built for anyone sending packages across Addis Ababa with clear estimates and visible progress." items={customerJourney} image="https://images.unsplash.com/photo-1604357209793-fca5dca89f97?auto=format&fit=crop&w=1100&q=82" />
+          <JourneyCard title="Rider path" intro="Built for verified riders who want structured offers, status tools, earnings, and payouts." items={riderJourney} dark image="https://images.unsplash.com/photo-1622185135505-2d795003994a?auto=format&fit=crop&w=1100&q=82" />
+        </div>
       </motion.div>
     </section>
   )
 }
 
-function StepsList({ title, steps }) {
+function JourneyCard({ title, intro, items, image, dark = false }) {
   return (
-    <motion.div variants={fadeUp} className="rounded-[2rem] border border-[#181714]/10 bg-white p-6 shadow-[0_20px_60px_rgba(24,23,20,0.08)]">
-      <h3 className="text-3xl font-black tracking-[-0.03em]">{title}</h3>
-      <ol className="mt-6 space-y-5">
-        {steps.map(([number, stepTitle, text]) => (
-          <li key={number} className="grid gap-4 sm:grid-cols-[3.5rem_1fr]">
-            <span className="flex size-12 items-center justify-center rounded-full bg-[#ffd60a] text-sm font-black text-[#181714]">{number}</span>
-            <div>
-              <h4 className="text-xl font-black tracking-tight">{stepTitle}</h4>
-              <p className="mt-1 leading-7 text-[#5f5948]">{text}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </motion.div>
+    <motion.article variants={fadeUp} className={`relative overflow-hidden rounded-[2.5rem] p-6 sm:p-8 ${dark ? 'bg-ink text-white' : 'bg-white text-ink'} shadow-[0_24px_80px_rgba(24,23,20,0.1)]`}>
+      <div className="absolute inset-x-0 top-0 h-48 opacity-25" style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+      <div className="relative">
+        <span className="mb-8 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-ink">{title}</span>
+        <p className={`max-w-xl font-display text-4xl font-black leading-[0.95] tracking-[-0.05em] sm:text-5xl ${dark ? 'text-white' : 'text-ink'}`}>{intro}</p>
+        <div className="mt-9 grid gap-3">
+          {items.map(([label, text], index) => (
+            <motion.div key={label} className={`grid grid-cols-[3rem_1fr] gap-4 rounded-[1.4rem] p-4 ${dark ? 'bg-white/8' : 'bg-[#fff8cf]'}`} whileHover={{ x: 8 }}>
+              <span className="font-display text-3xl font-black text-primary">{index + 1}</span>
+              <div>
+                <h3 className="font-black">{label}</h3>
+                <p className={`mt-1 text-sm font-medium leading-6 ${dark ? 'text-white/62' : 'text-ink/60'}`}>{text}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.article>
+  )
+}
+
+function HowItWorks() {
+  return (
+    <section id="how" className="relative bg-ink px-5 py-24 text-white sm:px-8 lg:py-32">
+      <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(90deg,rgba(255,255,255,.18)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.18)_1px,transparent_1px)] [background-size:72px_72px]" />
+      <motion.div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.78fr_1.22fr]" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger}>
+        <motion.div variants={fadeUp} className="lg:sticky lg:top-10 lg:self-start">
+          <p className="text-sm font-black uppercase tracking-[0.28em] text-primary">Stepped workflow</p>
+          <h2 className="mt-4 font-display text-5xl font-black leading-[0.9] tracking-[-0.06em] sm:text-7xl">From request to delivered, no mystery in the middle.</h2>
+          <p className="mt-6 text-lg font-medium leading-8 text-white/62">The experience stays customer-facing and accurate: delivery requests, verified riders, estimates, status updates, OTP/PIN proof, earnings, and payouts.</p>
+        </motion.div>
+        <div className="space-y-4">
+          {steps.map(([number, title, text]) => (
+            <motion.article key={number} variants={fadeUp} whileHover={{ scale: 1.015 }} className="group grid gap-5 rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 backdrop-blur sm:grid-cols-[5rem_1fr] sm:p-7">
+              <span className="grid h-16 w-16 place-items-center rounded-2xl bg-primary font-display text-2xl font-black text-ink transition group-hover:rotate-6">{number}</span>
+              <div>
+                <h3 className="font-display text-3xl font-black tracking-[-0.04em]">{title}</h3>
+                <p className="mt-2 max-w-2xl font-medium leading-7 text-white/62">{text}</p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  )
+}
+
+function FeatureRail() {
+  return (
+    <section id="features" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32">
+      <motion.div className="relative overflow-hidden rounded-[3rem] bg-white p-6 shadow-[0_24px_90px_rgba(24,23,20,.09)] sm:p-10 lg:p-14" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }}>
+        <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary/40 blur-3xl" />
+        <div className="relative grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.28em] text-[#b28d00]">Less clutter, stronger signals</p>
+            <h2 className="mt-4 font-display text-5xl font-black leading-[0.9] tracking-[-0.06em] sm:text-7xl">Designed around the moments people actually need.</h2>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {['Saved addresses', 'Promo and referral support', 'Eligible cancellation before pickup', 'Customer support', 'Vehicle registration', 'Rider online/offline availability', 'Accept or decline offers', 'Wallet and payout history'].map((item) => (
+              <motion.div key={item} className="rounded-full border border-ink/10 bg-[#fffaf0] px-5 py-4 text-sm font-black text-ink/72" whileHover={{ backgroundColor: '#ffd60a', color: '#181714', x: 6 }}>
+                {item}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  )
+}
+
+function FinalCTA() {
+  return (
+    <section id="start" className="px-5 pb-14 sm:px-8">
+      <motion.div className="mx-auto max-w-7xl overflow-hidden rounded-[3rem] bg-primary p-7 text-ink shadow-[0_28px_80px_rgba(255,214,10,.32)] sm:p-12 lg:p-16" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }}>
+        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.24em] text-ink/55">Move with Ferar</p>
+            <h2 className="mt-3 font-display text-5xl font-black leading-[0.9] tracking-[-0.06em] sm:text-7xl">Request a delivery or apply to ride.</h2>
+            <p className="mt-5 max-w-2xl text-lg font-semibold leading-8 text-ink/62">For Addis Ababa customers sending packages and riders ready to fulfill deliveries with clear workflows.</p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+            <a className="rounded-full bg-white px-8 py-4 text-center font-black shadow-[0_14px_35px_rgba(24,23,20,.12)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Delivery request">Request delivery</a>
+            <a className="rounded-full bg-ink px-8 py-4 text-center font-black text-white shadow-[0_14px_35px_rgba(24,23,20,.16)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Rider interest">Become a rider</a>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  )
+}
+
+function Footer() {
+  return (
+    <footer className="mx-auto flex max-w-7xl flex-col gap-3 border-t border-ink/10 px-5 py-10 text-sm font-bold text-ink/50 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+      <p>© 2026 Ferar.</p>
+      <p>On-demand motorcycle delivery in Addis Ababa.</p>
+    </footer>
   )
 }
 

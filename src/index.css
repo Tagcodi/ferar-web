@@ -1,9 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #ffd60a;
+  --color-ink: #181714;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
 :root {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: #181714;
-  background: #ffffff;
+  background: #fffdf7;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -27,4 +35,9 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+::selection {
+  background: #ffd60a;
+  color: #181714;
 }
