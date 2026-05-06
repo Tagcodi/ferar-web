@@ -1,171 +1,167 @@
-const features = [
-  {
-    title: 'Fast City Delivery',
-    text: 'Motorcycle-based delivery helps move through busy streets more efficiently than traditional transport options.',
-  },
-  {
-    title: 'Simple Booking',
-    text: 'Create a delivery request in just a few steps with clear pickup and drop-off details.',
-  },
-  {
-    title: 'Reliable Riders',
-    text: 'Ferar connects you with riders ready to handle everyday delivery needs with care and professionalism.',
-  },
-  {
-    title: 'For Customers & Businesses',
-    text: 'Send personal items, documents, shop orders, food packages, and more with a flexible delivery option.',
-  },
-  {
-    title: 'Clear Delivery Flow',
-    text: 'Know what’s happening from request to pickup to drop-off, without confusing coordination.',
-  },
-  {
-    title: 'Built for Local Movement',
-    text: 'Designed for city logistics, short-distance delivery, and fast movement across neighborhoods.',
-  },
-]
-
 const steps = [
-  ['01', 'Request a Delivery', 'Enter your pickup location, drop-off location, and delivery details.'],
-  ['02', 'Get Matched', 'Ferar connects your request with an available motorcycle rider.'],
-  ['03', 'Rider Picks Up', 'Your item is collected from the pickup point.'],
-  ['04', 'Delivered to Destination', 'The rider completes the delivery and gets your item where it needs to go.'],
-]
-
-const useCases = [
-  'Personal package delivery',
-  'Business order delivery',
-  'Document and parcel transport',
-  'Shop-to-customer deliveries',
-  'Food and small item delivery',
-  'Urgent local errands',
-  'Marketplace and merchant deliveries',
-  'Office-to-office item movement',
+  {
+    number: '01',
+    title: 'Request a delivery',
+    text: 'Enter pickup and drop-off details in a few quick steps.',
+  },
+  {
+    number: '02',
+    title: 'Confirm your order',
+    text: 'Review the route, delivery details, and price before sending.',
+  },
+  {
+    number: '03',
+    title: 'Get matched with a rider',
+    text: 'A motorcycle rider picks up your item and starts the delivery.',
+  },
+  {
+    number: '04',
+    title: 'Track until it arrives',
+    text: 'Follow the trip and receive your delivery quickly and reliably.',
+  },
 ]
 
 const benefits = [
-  'Faster movement through city traffic',
-  'Convenient delivery for everyday needs',
-  'Flexible for individuals and businesses',
-  'Easy request process',
-  'Suitable for small and urgent deliveries',
-  'Helps businesses reach customers more efficiently',
-  'Reduces delivery coordination hassle',
+  {
+    title: 'Fast city delivery',
+    text: 'Motorcycle riders move easily through traffic to get items delivered sooner.',
+  },
+  {
+    title: 'Simple from start to finish',
+    text: 'Clear steps, clean tracking, and no complicated process.',
+  },
+  {
+    title: 'Built for everyday needs',
+    text: 'Send parcels, food, documents, or small essentials across the city.',
+  },
 ]
 
 function App() {
   return (
-    <main className="min-h-screen overflow-hidden bg-slate-950 text-white">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(45,212,191,.22),transparent_28%),radial-gradient(circle_at_80%_0%,rgba(59,130,246,.25),transparent_30%),radial-gradient(circle_at_50%_90%,rgba(168,85,247,.18),transparent_35%)]" />
-      <div className="relative">
+    <main className="min-h-screen bg-[#fffdf3] text-[#181714]">
+      <section className="relative isolate overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,214,10,0.42),transparent_36%),linear-gradient(135deg,#fffdf3_0%,#fff7c7_46%,#f7f2de_100%)]" />
+        <div className="absolute right-0 top-0 -z-10 h-full w-1/2 bg-[#ffd60a]/20 blur-3xl" />
+
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-8">
-          <a href="#top" className="flex items-center gap-3">
-            <span className="grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-cyan-300 to-blue-600 font-black text-slate-950 shadow-lg shadow-cyan-500/20">F</span>
-            <span className="text-xl font-semibold tracking-tight">Ferar</span>
+          <a href="#top" className="flex items-center gap-3" aria-label="Ferar home">
+            <span className="grid size-11 place-items-center rounded-full bg-[#181714] text-lg font-black text-[#ffd60a] shadow-[0_14px_40px_rgba(24,23,20,0.18)]">
+              F
+            </span>
+            <span className="text-xl font-black tracking-tight">Ferar</span>
           </a>
-          <div className="hidden items-center gap-8 text-sm text-slate-300 md:flex">
-            <a href="#features" className="hover:text-white">Features</a>
-            <a href="#how-it-works" className="hover:text-white">How It Works</a>
-            <a href="#use-cases" className="hover:text-white">Use Cases</a>
+          <div className="hidden items-center gap-8 text-sm font-semibold text-[#4d493d] md:flex">
+            <a className="transition hover:text-black" href="#how-to-use">How to use</a>
+            <a className="transition hover:text-black" href="#benefits">Benefits</a>
+            <a className="transition hover:text-black" href="#start">Start</a>
           </div>
-          <a href="#start" className="rounded-full border border-white/15 bg-white/10 px-5 py-2.5 text-sm font-semibold backdrop-blur transition hover:bg-white hover:text-slate-950">Book a Delivery</a>
+          <a className="rounded-full bg-[#181714] px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-black" href="#start">
+            Start a delivery
+          </a>
         </nav>
 
-        <section id="top" className="mx-auto grid max-w-7xl items-center gap-12 px-6 pb-20 pt-10 lg:grid-cols-[1.04fr_.96fr] lg:px-8 lg:pb-28 lg:pt-20">
+        <div id="top" className="mx-auto grid max-w-7xl items-center gap-12 px-6 pb-20 pt-8 lg:grid-cols-[0.92fr_1.08fr] lg:px-8 lg:pb-28 lg:pt-16">
           <div>
-            <div className="mb-6 inline-flex rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-100">Fast local delivery for everyday city needs</div>
-            <h1 className="max-w-4xl text-5xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">Fast Motorcycle Delivery, Built for City Movement</h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">Ferar helps customers and businesses move items quickly across town with reliable motorcycle ride delivery designed for everyday needs.</p>
+            <p className="mb-5 inline-flex rounded-full border border-[#181714]/10 bg-white/70 px-4 py-2 text-sm font-bold text-[#4d493d] shadow-sm backdrop-blur">
+              Motorcycle delivery for everyday city movement
+            </p>
+            <h1 className="max-w-4xl text-5xl font-black leading-[0.94] tracking-[-0.055em] text-[#181714] sm:text-7xl lg:text-8xl">
+              Ride delivery, made simple.
+            </h1>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-[#5f5948] sm:text-xl">
+              Ferar connects customers with fast motorcycle delivery for everyday orders, parcels, and city errands.
+            </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-              <a href="#start" className="rounded-full bg-cyan-300 px-7 py-4 text-center font-bold text-slate-950 shadow-xl shadow-cyan-500/20 transition hover:-translate-y-0.5 hover:bg-cyan-200">Book a Delivery</a>
-              <a href="#how-it-works" className="rounded-full border border-white/15 bg-white/10 px-7 py-4 text-center font-bold text-white backdrop-blur transition hover:bg-white/15">Learn How It Works</a>
+              <a className="rounded-full bg-[#ffd60a] px-8 py-4 text-center font-black text-[#181714] shadow-[0_18px_45px_rgba(255,214,10,0.45)] transition hover:-translate-y-0.5 hover:bg-[#ffdf3d]" href="#start">
+                Start a delivery
+              </a>
+              <a className="rounded-full border border-[#181714]/15 bg-white/60 px-8 py-4 text-center font-black text-[#181714] backdrop-blur transition hover:-translate-y-0.5 hover:bg-white" href="#how-to-use">
+                How it works
+              </a>
             </div>
           </div>
 
           <div className="relative">
-            <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-cyan-400/25 via-blue-500/10 to-fuchsia-500/25 blur-2xl" />
-            <div className="relative rounded-[2rem] border border-white/10 bg-slate-900/80 p-4 shadow-2xl shadow-black/40 backdrop-blur-xl">
-              <div className="rounded-[1.5rem] bg-slate-950 p-5">
-                <div className="mb-5 flex items-center justify-between">
-                  <div><p className="text-sm text-slate-400">Ferar Delivery</p><h2 className="text-2xl font-bold">Across Town</h2></div>
-                  <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-sm text-emerald-300">Moving</span>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-2xl bg-white/[.06] p-4"><p className="text-slate-400">Pickup</p><b className="text-3xl">Home</b></div>
-                  <div className="rounded-2xl bg-white/[.06] p-4"><p className="text-slate-400">Drop-off</p><b className="text-3xl">Shop</b></div>
-                  <div className="rounded-2xl bg-white/[.06] p-4"><p className="text-slate-400">Vehicle</p><b className="text-3xl">Bike</b></div>
-                  <div className="rounded-2xl bg-white/[.06] p-4"><p className="text-slate-400">Best for</p><b className="text-3xl">City</b></div>
-                  <div className="sm:col-span-2 rounded-2xl bg-white/[.06] p-4">
-                    {['Delivery request created', 'Rider picks up your item', 'Delivered to destination'].map((item, index) => (
-                      <div key={item} className="flex items-center gap-3 border-b border-white/10 py-3 last:border-0">
-                        <span className="grid size-8 place-items-center rounded-full bg-cyan-300/15 text-sm text-cyan-200">{index + 1}</span>
-                        <span className="text-slate-200">{item}</span>
-                        <span className="ml-auto text-sm text-slate-500">clear</span>
-                      </div>
-                    ))}
+            <div className="absolute -inset-6 rounded-[3rem] bg-[#ffd60a]/40 blur-3xl" />
+            <figure className="relative overflow-hidden rounded-[2.5rem] bg-[#181714] shadow-[0_32px_90px_rgba(24,23,20,0.28)]">
+              <img
+                className="h-[560px] w-full object-cover opacity-90"
+                src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1400&q=85"
+                alt="Motorcycle rider moving through a city street"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#181714]/80 via-[#181714]/10 to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6 rounded-[1.75rem] border border-white/20 bg-white/90 p-5 text-[#181714] shadow-2xl backdrop-blur md:left-auto md:w-80">
+                <p className="text-sm font-bold text-[#6b6244]">Current delivery</p>
+                <div className="mt-3 flex items-center justify-between gap-4">
+                  <div>
+                    <h2 className="text-2xl font-black">On the way</h2>
+                    <p className="mt-1 text-sm font-semibold text-[#6b6244]">Pickup → Drop-off</p>
                   </div>
+                  <span className="rounded-full bg-[#ffd60a] px-4 py-2 text-sm font-black">Fast</span>
                 </div>
               </div>
-            </div>
+            </figure>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section id="solution" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-2">
-            <div className="rounded-[2rem] border border-red-300/15 bg-red-400/10 p-8">
-              <p className="text-sm font-bold uppercase tracking-[.2em] text-red-200">The problem</p>
-              <h2 className="mt-4 text-3xl font-black">City delivery can be slow, unpredictable, and hard to coordinate.</h2>
-              <p className="mt-6 text-slate-300">Whether it’s a small package, business order, document, or urgent item, customers need a faster way to get things from point A to point B without unnecessary delays or complicated steps.</p>
-            </div>
-            <div className="rounded-[2rem] border border-cyan-300/15 bg-cyan-300/10 p-8">
-              <p className="text-sm font-bold uppercase tracking-[.2em] text-cyan-200">The Ferar solution</p>
-              <h2 className="mt-4 text-3xl font-black">Ferar makes local delivery simple.</h2>
-              <p className="mt-6 text-slate-300">Request a motorcycle delivery, share the pickup and drop-off details, and get your item moving with a delivery option made for speed, convenience, and urban roads.</p>
-            </div>
+      <section id="how-to-use" className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
+        <div className="grid gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+          <div className="lg:sticky lg:top-10">
+            <p className="text-sm font-black uppercase tracking-[0.24em] text-[#b28d00]">How to use Ferar</p>
+            <h2 className="mt-4 text-4xl font-black tracking-[-0.04em] sm:text-6xl">Four clear steps. No complicated process.</h2>
+            <p className="mt-5 text-lg leading-8 text-[#5f5948]">Request, confirm, match with a rider, then track the delivery until it arrives.</p>
           </div>
-        </section>
-
-        <section id="features" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="max-w-3xl"><p className="text-cyan-200">Features</p><h2 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Made for fast everyday delivery.</h2></div>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => <article key={feature.title} className="rounded-[1.75rem] border border-white/10 bg-white/[.06] p-7 backdrop-blur transition hover:-translate-y-1 hover:bg-white/[.09]"><div className="mb-5 size-12 rounded-2xl bg-gradient-to-br from-cyan-300 to-blue-600" /><h3 className="text-xl font-bold">{feature.title}</h3><p className="mt-3 text-slate-400">{feature.text}</p></article>)}
+          <div className="divide-y divide-[#181714]/10 border-y border-[#181714]/10">
+            {steps.map((step) => (
+              <article key={step.number} className="grid gap-5 py-8 sm:grid-cols-[5rem_1fr]">
+                <span className="flex size-14 items-center justify-center rounded-full bg-[#ffd60a] text-sm font-black text-[#181714]">
+                  {step.number}
+                </span>
+                <div>
+                  <h3 className="text-2xl font-black tracking-tight">{step.title}</h3>
+                  <p className="mt-2 text-lg leading-8 text-[#5f5948]">{step.text}</p>
+                </div>
+              </article>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section id="how-it-works" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="rounded-[2.25rem] border border-white/10 bg-white/[.06] p-8 lg:p-10">
-            <div className="max-w-3xl"><p className="text-cyan-200">How It Works</p><h2 className="mt-3 text-4xl font-black">From request to drop-off in a clear flow.</h2></div>
-            <div className="mt-10 grid gap-5 lg:grid-cols-4">{steps.map(([num, title, text]) => <div key={num} className="rounded-3xl bg-slate-950/70 p-6"><span className="text-sm font-black text-cyan-300">{num}</span><h3 className="mt-5 text-2xl font-bold">{title}</h3><p className="mt-3 text-slate-400">{text}</p></div>)}</div>
+      <section id="benefits" className="bg-[#181714] px-6 py-20 text-white lg:px-8 lg:py-28">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ffd60a]">Why Ferar</p>
+            <h2 className="mt-4 text-4xl font-black tracking-[-0.04em] sm:text-6xl">Fast motorcycle delivery, designed around customers.</h2>
           </div>
-        </section>
-
-        <section id="use-cases" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="max-w-3xl"><p className="text-cyan-200">Use Cases</p><h2 className="mt-3 text-4xl font-black">Useful for personal, business, and urgent city deliveries.</h2></div>
-          <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {useCases.map((useCase) => <div key={useCase} className="rounded-2xl border border-white/10 bg-white/[.06] p-5 font-semibold text-slate-200">{useCase}</div>)}
+          <div className="space-y-8">
+            {benefits.map((benefit) => (
+              <article key={benefit.title} className="border-l-4 border-[#ffd60a] pl-6">
+                <h3 className="text-2xl font-black">{benefit.title}</h3>
+                <p className="mt-2 text-lg leading-8 text-white/70">{benefit.text}</p>
+              </article>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="rounded-[2.25rem] border border-white/10 bg-white/[.06] p-8 lg:p-10">
-            <div className="max-w-3xl"><p className="text-cyan-200">Benefits</p><h2 className="mt-3 text-4xl font-black">A faster, easier way to move items across town.</h2></div>
-            <div className="mt-8 grid gap-4 md:grid-cols-2">
-              {benefits.map((benefit) => <div key={benefit} className="rounded-2xl bg-slate-950/70 p-5 font-semibold text-slate-200">✓ {benefit}</div>)}
-            </div>
+      <section id="start" className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#ffd60a] p-8 shadow-[0_30px_80px_rgba(255,214,10,0.35)] sm:p-12 lg:p-16">
+          <div className="absolute -right-16 -top-16 size-64 rounded-full bg-white/35" />
+          <div className="relative max-w-3xl">
+            <h2 className="text-4xl font-black tracking-[-0.04em] sm:text-6xl">Ready to send something?</h2>
+            <p className="mt-5 text-lg font-semibold leading-8 text-[#4d493d]">Use Ferar for quick, simple motorcycle delivery across the city.</p>
+            <a className="mt-8 inline-flex rounded-full bg-[#181714] px-8 py-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-black" href="mailto:hello@ferar.systems">
+              Request delivery
+            </a>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section id="start" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <div className="overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-cyan-300 via-blue-500 to-violet-600 p-10 text-slate-950 lg:p-14">
-            <div className="max-w-3xl"><h2 className="text-4xl font-black tracking-tight sm:text-5xl">Move Anything Across Town, Faster</h2><p className="mt-5 text-lg font-semibold text-slate-900/80">Whether you’re sending a personal item or fulfilling customer orders, Ferar makes motorcycle delivery simple, fast, and reliable.</p><a href="mailto:hello@ferar.systems" className="mt-8 inline-flex rounded-full bg-slate-950 px-7 py-4 font-bold text-white transition hover:bg-slate-800">Start a Delivery</a></div>
-          </div>
-        </section>
-
-        <footer className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-white/10 px-6 py-10 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between lg:px-8">
-          <p>© 2026 Ferar.</p>
-          <p>Ferar — Fast motorcycle delivery for everyday city movement.</p>
-        </footer>
-      </div>
+      <footer className="mx-auto flex max-w-7xl flex-col gap-3 border-t border-[#181714]/10 px-6 py-10 text-sm font-semibold text-[#6b6244] sm:flex-row sm:items-center sm:justify-between lg:px-8">
+        <p>© 2026 Ferar.</p>
+        <p>Ride delivery, made simple.</p>
+      </footer>
     </main>
   )
 }
