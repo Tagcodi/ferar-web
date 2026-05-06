@@ -54,6 +54,21 @@ const safetyItems = [
   ['Support paths', 'Help flows give both sides a place to raise problems and resolve handoff questions.'],
 ]
 
+const contactReasons = [
+  ['Customer support', 'Help with delivery requests, route details, status questions, handoff issues, and receipts.'],
+  ['Rider applications', 'Apply to ride with Ferar and ask about onboarding, documents, vehicle details, and payouts.'],
+  ['Business inquiries', 'Discuss small business delivery needs, recurring routes, launch partnerships, or account questions.'],
+  ['General questions', 'Ask anything else about Ferar, availability, launch timing, or how the service works.'],
+]
+
+const contactChannels = [
+  ['Email', 'hello@ferar.systems', 'mailto:hello@ferar.systems?subject=Ferar contact'],
+  ['Phone', '+251 900 000 000', 'tel:+251900000000'],
+  ['WhatsApp', '+251 900 000 000', 'https://wa.me/251900000000'],
+  ['Address', 'Addis Ababa, Ethiopia', null],
+  ['Social', '@ferar.delivery', null],
+]
+
 const faqs = [
   ['What can I send?', 'Documents, parcels, small business orders, and personal items that are safe and allowed.'],
   ['Where does Ferar operate?', 'Ferar is focused on motorcycle delivery across Addis Ababa.'],
@@ -89,6 +104,7 @@ function App() {
   if (route === '/terms') return <StandaloneLegalPage type="terms" />
   if (route === '/privacy') return <StandaloneLegalPage type="privacy" />
   if (route === '/faq') return <StandaloneFaqPage />
+  if (route === '/contact') return <StandaloneContactPage />
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#fffdf7] text-ink">
@@ -118,10 +134,11 @@ function Navigation({ compact = false }) {
         <a className="hover:text-ink" href="/#how">How it works</a>
         <a className="hover:text-ink" href="/#pricing">Pricing</a>
         <a className="hover:text-ink" href="/faq">FAQ</a>
+        <a className="hover:text-ink" href="/contact">Contact</a>
         <a className="hover:text-ink" href="/terms">Terms</a>
         <a className="hover:text-ink" href="/privacy">Privacy</a>
       </div>
-      <a className="rounded-full bg-ink px-5 py-3 text-sm font-black text-white shadow-[0_14px_32px_rgba(24,23,20,0.18)] transition hover:-translate-y-0.5 hover:bg-[#2c2a22]" href={compact ? '/#start' : '#start'}>
+      <a className="rounded-full bg-ink px-5 py-3 text-sm font-black !text-white shadow-[0_14px_32px_rgba(24,23,20,0.18)] transition hover:-translate-y-0.5 hover:bg-[#2c2a22]" href={compact ? '/#start' : '#start'}>
         Get started
       </a>
     </nav>
@@ -370,7 +387,7 @@ function PricingPage() {
         <motion.div variants={fadeUp} className="rounded-[2.5rem] bg-primary p-8 text-ink shadow-[0_24px_80px_rgba(255,214,10,.24)]">
           <h3 className="font-display text-4xl font-black leading-[0.95] tracking-[-0.05em]">Fare preview, then confirm.</h3>
           <p className="mt-5 text-lg font-semibold leading-8 text-ink/65">Customers see an estimated fare and delivery time before submitting. Final launch pricing can reflect route, package, and urgency details.</p>
-          <a className="mt-8 inline-flex rounded-full bg-ink px-7 py-4 font-black text-white shadow-[0_14px_35px_rgba(24,23,20,.16)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Delivery estimate">Get an estimate</a>
+          <a className="mt-8 inline-flex rounded-full bg-ink px-7 py-4 font-black !text-white shadow-[0_14px_35px_rgba(24,23,20,.16)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Delivery estimate">Get an estimate</a>
         </motion.div>
         <InfoGrid items={pricingFactors} dark />
       </div>
@@ -426,26 +443,48 @@ function HelpPage() {
         <p className="max-w-3xl text-lg font-semibold leading-8 text-white/64">Find quick launch answers on the dedicated FAQ page, or contact Ferar support with your route, role, or question.</p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <a className="inline-flex rounded-full bg-primary px-7 py-4 font-black text-ink shadow-[0_14px_35px_rgba(255,214,10,.18)] transition hover:-translate-y-1" href="/faq">Open FAQ</a>
-          <a className="inline-flex rounded-full border border-white/15 bg-white px-7 py-4 font-black text-ink shadow-sm transition hover:-translate-y-1" href="#contact">Contact support</a>
+          <a className="inline-flex rounded-full border border-white/15 bg-white px-7 py-4 font-black text-ink shadow-sm transition hover:-translate-y-1" href="/contact">Contact support</a>
         </div>
       </motion.div>
     </PageShell>
   )
 }
 
+function ContactContent() {
+  return (
+    <motion.div variants={fadeUp} className="mt-14 rounded-[2.5rem] bg-white p-8 shadow-[0_24px_80px_rgba(24,23,20,0.09)]">
+      <div className="grid gap-5 md:grid-cols-2">
+        {contactReasons.map(([item, text]) => (
+          <div key={item} className="rounded-[1.5rem] bg-[#fff8cf] p-5">
+            <h3 className="font-display text-2xl font-black tracking-[-0.04em]">{item}</h3>
+            <p className="mt-2 font-semibold leading-7 text-ink/62">{text}</p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {contactChannels.map(([label, value, href]) => {
+          const content = (
+            <>
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-[#b28d00]">{label}</span>
+              <span className="mt-2 block font-black text-ink">{value}</span>
+            </>
+          )
+          return href ? (
+            <a key={label} className="rounded-[1.3rem] border border-ink/10 bg-[#fffdf7] p-4 transition hover:-translate-y-1 hover:border-primary" href={href}>{content}</a>
+          ) : (
+            <div key={label} className="rounded-[1.3rem] border border-ink/10 bg-[#fffdf7] p-4">{content}</div>
+          )
+        })}
+      </div>
+      <p className="mt-8 max-w-3xl font-semibold leading-7 text-ink/62">Launch placeholders are ready to replace with Ferar’s official phone, WhatsApp, address, and social links before public launch.</p>
+    </motion.div>
+  )
+}
+
 function ContactPage() {
   return (
     <PageShell id="contact" eyebrow="Contact" title="Reach Ferar for delivery, rider, or business questions.">
-      <motion.div variants={fadeUp} className="mt-14 rounded-[2.5rem] bg-white p-8 shadow-[0_24px_80px_rgba(24,23,20,0.09)]">
-        <div className="grid gap-5 md:grid-cols-2">
-          {['Customer support', 'Rider applications', 'Business inquiries', 'General questions'].map((item) => (
-            <div key={item} className="rounded-[1.5rem] bg-[#fff8cf] p-5">
-              <h3 className="font-display text-2xl font-black tracking-[-0.04em]">{item}</h3>
-              <p className="mt-2 font-semibold leading-7 text-ink/62">Email hello@ferar.systems and include the route, role, or question so the team can route it correctly.</p>
-            </div>
-          ))}
-        </div>
-      </motion.div>
+      <ContactContent />
     </PageShell>
   )
 }
@@ -492,7 +531,19 @@ function StandaloneFaqPage() {
       <section className="bg-ink px-5 py-24 text-white sm:px-8 lg:py-32">
         <motion.div className="mx-auto max-w-7xl" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger}>
           <InfoGrid items={faqs} dark />
-          <motion.a variants={fadeUp} className="mt-10 inline-flex rounded-full bg-primary px-7 py-4 font-black text-ink shadow-[0_14px_35px_rgba(255,214,10,.18)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Ferar support question">Contact support</motion.a>
+          <motion.a variants={fadeUp} className="mt-10 inline-flex rounded-full bg-primary px-7 py-4 font-black text-ink shadow-[0_14px_35px_rgba(255,214,10,.18)] transition hover:-translate-y-1" href="/contact">Contact support</motion.a>
+        </motion.div>
+      </section>
+    </StandaloneShell>
+  )
+}
+
+function StandaloneContactPage() {
+  return (
+    <StandaloneShell eyebrow="Contact" title="Contact Ferar." intro="Support and launch inquiry paths for customers, verified riders, businesses, and general questions.">
+      <section className="px-5 py-24 sm:px-8 lg:py-32">
+        <motion.div className="mx-auto max-w-7xl" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger}>
+          <ContactContent />
         </motion.div>
       </section>
     </StandaloneShell>
@@ -504,7 +555,7 @@ function TwoColumnCard({ intro, leftTitle, leftItems, rightTitle, rightItems, ct
     <div className="mt-14 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
       <motion.div variants={fadeUp} className={`${dark ? 'text-white/68' : 'text-ink/62'} text-lg font-semibold leading-8`}>
         <p>{intro}</p>
-        <a className={`${dark ? 'bg-primary text-ink' : 'bg-ink text-white'} mt-8 inline-flex rounded-full px-7 py-4 font-black shadow-[0_14px_35px_rgba(24,23,20,.14)] transition hover:-translate-y-1`} href={href}>{cta}</a>
+        <a className={`${dark ? 'bg-primary text-ink' : 'bg-ink !text-white'} mt-8 inline-flex rounded-full px-7 py-4 font-black shadow-[0_14px_35px_rgba(24,23,20,.14)] transition hover:-translate-y-1`} href={href}>{cta}</a>
       </motion.div>
       <div className="grid gap-4 sm:grid-cols-2">
         <ListBlock title={leftTitle} items={leftItems} dark={dark} />
@@ -550,7 +601,7 @@ function FinalCTA() {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
             <a className="rounded-full bg-white px-8 py-4 text-center font-black shadow-[0_14px_35px_rgba(24,23,20,.12)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Delivery request">Request delivery</a>
-            <a className="rounded-full bg-ink px-8 py-4 text-center font-black text-white shadow-[0_14px_35px_rgba(24,23,20,.16)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Rider interest">Become a rider</a>
+            <a className="rounded-full bg-ink px-8 py-4 text-center font-black !text-white shadow-[0_14px_35px_rgba(24,23,20,.16)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Rider interest">Become a rider</a>
           </div>
         </div>
       </motion.div>
@@ -563,7 +614,7 @@ function Footer() {
     <footer className="mx-auto flex max-w-7xl flex-col gap-3 border-t border-ink/10 px-5 py-10 text-sm font-bold text-ink/50 sm:flex-row sm:items-center sm:justify-between sm:px-8">
       <p>© 2026 Ferar.</p>
       <div className="flex flex-wrap gap-4">
-        <a className="hover:text-ink" href="/#contact">Contact</a>
+        <a className="hover:text-ink" href="/contact">Contact</a>
         <a className="hover:text-ink" href="/faq">FAQ</a>
         <a className="hover:text-ink" href="/terms">Terms</a>
         <a className="hover:text-ink" href="/privacy">Privacy</a>

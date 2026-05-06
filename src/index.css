@@ -41,3 +41,10 @@ a {
   background: #ffd60a;
   color: #181714;
 }
+
+/* Contrast safety: any CTA/link rendered on Ferar ink stays readable. */
+a.bg-ink,
+button.bg-ink,
+[role="button"].bg-ink {
+  color: #fffdf7 !important;
+}
