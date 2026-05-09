@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 26 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.72, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.68, ease: [0.22, 1, 0.36, 1] } },
 }
 
 const stagger = {
@@ -10,8 +10,37 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.09, delayChildren: 0.04 } },
 }
 
-const floatLoop = { duration: 6.5, repeat: Infinity, ease: 'easeInOut' }
-const floatSlow = { duration: 9, repeat: Infinity, ease: 'easeInOut' }
+const floatLoop = { duration: 6.8, repeat: Infinity, repeatType: 'mirror', ease: [0.42, 0, 0.58, 1] }
+const floatSlow = { duration: 9.8, repeat: Infinity, repeatType: 'mirror', ease: [0.25, 0.1, 0.25, 1] }
+
+function buttonStyles({ variant = 'primary', dark = false, disabled = false, className = '' } = {}) {
+  const base = 'inline-flex items-center justify-center rounded-full px-7 py-4 text-center text-sm font-black transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:transform-none'
+  const variants = {
+    primary: `${dark ? 'bg-[color:var(--color-primary)] text-foreground shadow-[0_18px_42px_rgba(250,204,21,0.28)] focus-visible:ring-offset-foreground' : 'bg-[color:var(--color-primary)] text-foreground shadow-[0_18px_42px_rgba(250,204,21,0.34)] focus-visible:ring-offset-background'} hover:-translate-y-1 hover:brightness-105`,
+    secondary: `${dark ? 'bg-white text-foreground shadow-[0_14px_35px_rgba(15,23,42,0.16)] hover:bg-white/92 focus-visible:ring-offset-foreground' : 'bg-foreground text-white shadow-[0_14px_35px_rgba(15,23,42,0.16)] hover:bg-foreground/92 focus-visible:ring-offset-background'} hover:-translate-y-1`,
+    ghost: `${dark ? 'border border-white/18 bg-white/8 text-white/92 hover:bg-white/14 hover:text-white focus-visible:ring-offset-foreground' : 'border border-foreground/12 bg-white/80 text-foreground hover:bg-white hover:border-foreground/20 focus-visible:ring-offset-background'} shadow-sm hover:-translate-y-0.5`,
+  }
+
+  return `${base} ${variants[variant]} ${disabled ? 'pointer-events-none opacity-45 shadow-none hover:translate-y-0 hover:brightness-100' : ''} ${className}`.trim()
+}
+
+function Button({ href, children, variant = 'primary', dark = false, className = '', disabled = false, ...props }) {
+  const classes = buttonStyles({ variant, dark, disabled, className })
+
+  if (href) {
+    return (
+      <a aria-disabled={disabled || undefined} className={classes} href={disabled ? undefined : href} {...props}>
+        {children}
+      </a>
+    )
+  }
+
+  return (
+    <button className={classes} disabled={disabled} type="button" {...props}>
+      {children}
+    </button>
+  )
+}
 
 const customerJourney = [
   ['Request', 'Pickup, drop-off, recipient details, and package size.'],
@@ -153,12 +182,9 @@ function Navigation({ compact = false, dark = false }) {
           </span>
           <span className="font-display text-2xl font-black tracking-[-0.04em]">Ferar</span>
         </a>
-        <a
-          className={`rounded-full px-5 py-3 text-sm font-black transition duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] focus-visible:ring-offset-2 ${dark ? 'bg-white text-foreground focus-visible:ring-offset-foreground' : 'bg-foreground text-background shadow-[0_14px_32px_rgba(16,16,18,0.16)] focus-visible:ring-offset-background'}`}
-          href={compact ? '/#start' : '#start'}
-        >
+        <Button href={compact ? '/#start' : '#start'} variant="secondary" dark={dark} className="px-5 py-3">
           Get started
-        </a>
+        </Button>
       </div>
       <div className="-mx-1 flex gap-2 overflow-x-auto pb-1 md:hidden">
         {navLinks.map(([label, href]) => (
@@ -178,23 +204,21 @@ function Navigation({ compact = false, dark = false }) {
           </a>
         ))}
       </div>
-      <a
-        className={`hidden rounded-full px-5 py-3 text-sm font-black transition duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] focus-visible:ring-offset-2 md:inline-flex ${dark ? 'bg-white text-foreground focus-visible:ring-offset-foreground' : 'bg-foreground text-background shadow-[0_14px_32px_rgba(16,16,18,0.16)] focus-visible:ring-offset-background'}`}
-        href={compact ? '/#start' : '#start'}
-      >
+      <Button href={compact ? '/#start' : '#start'} variant="secondary" dark={dark} className="hidden px-5 py-3 md:inline-flex">
         Get started
-      </a>
+      </Button>
     </nav>
   )
 }
 
 function Hero() {
+  const reduceMotion = useReducedMotion()
   return (
     <AppShell>
       <section id="top" className="relative isolate overflow-hidden">
         <div aria-hidden="true" className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_top_left,rgba(250,204,21,0.16),transparent_26%),linear-gradient(135deg,#f8fafc_0%,#f4f7fb_46%,#eef2ff_100%)]" />
-        <motion.div aria-hidden="true" className="absolute left-[-7rem] top-24 -z-10 h-80 w-80 rounded-full bg-[rgba(250,204,21,0.28)] blur-3xl" animate={{ scale: [1, 1.12, 1], x: [0, 24, 0] }} transition={floatLoop} />
-        <motion.div aria-hidden="true" className="absolute right-[-6rem] top-10 -z-10 h-72 w-72 rounded-full bg-[rgba(99,102,241,0.16)] blur-3xl" animate={{ scale: [1, 1.16, 1], y: [0, 18, 0] }} transition={floatSlow} />
+        <motion.div aria-hidden="true" className="absolute left-[-7rem] top-24 -z-10 h-80 w-80 rounded-full bg-[rgba(250,204,21,0.28)] blur-3xl" animate={reduceMotion ? false : { scale: [1, 1.12, 1], x: [0, 24, 0] }} transition={reduceMotion ? undefined : floatLoop} />
+        <motion.div aria-hidden="true" className="absolute right-[-6rem] top-10 -z-10 h-72 w-72 rounded-full bg-[rgba(99,102,241,0.16)] blur-3xl" animate={reduceMotion ? false : { scale: [1, 1.16, 1], y: [0, 18, 0] }} transition={reduceMotion ? undefined : floatSlow} />
 
         <Navigation />
 
@@ -211,12 +235,12 @@ function Hero() {
               Ferar helps customers request motorcycle deliveries across Addis Ababa while verified riders accept jobs, update progress, and track earnings.
             </motion.p>
             <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-4 sm:flex-row">
-              <a className="rounded-full bg-[color:var(--color-primary)] px-8 py-4 text-center font-black text-foreground shadow-[0_18px_42px_rgba(250,204,21,0.34)] transition duration-300 hover:-translate-y-1 hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-background" href="#journeys">
+              <Button href="#journeys" variant="primary">
                 See customer flow
-              </a>
-              <a className="rounded-full border border-foreground/12 bg-white/70 px-8 py-4 text-center font-black text-foreground shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-foreground/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background" href="#rider-journey">
+              </Button>
+              <Button href="#rider-journey" variant="ghost">
                 Rider journey
-              </a>
+              </Button>
             </motion.div>
             <motion.div variants={fadeUp} className="mt-8 grid max-w-2xl gap-3 sm:grid-cols-3">
               {['Fare preview', 'Live status', 'Proof-ready'].map((item) => (
@@ -239,14 +263,15 @@ function Hero() {
 }
 
 function RouteCanvas() {
+  const reduceMotion = useReducedMotion()
   return (
-    <div aria-hidden="true" className="absolute inset-0 rounded-[3rem] border border-foreground/8 bg-[radial-gradient(circle_at_50%_18%,rgba(250,204,21,.24),transparent_28%),linear-gradient(165deg,#ffffff_0%,#eef2ff_49%,#111827_49%,#111827_100%)] shadow-[0_34px_90px_rgba(15,23,42,0.16)]">
+    <div aria-hidden="true" className="absolute inset-0 rounded-[3rem] border border-foreground/8 bg-[radial-gradient(circle_at_50%_18%,rgba(250,204,21,.28),transparent_28%),linear-gradient(165deg,#ffffff_0%,#eef2ff_42%,#111827_42%,#111827_100%)] shadow-[0_34px_90px_rgba(15,23,42,0.16)]">
       <div className="absolute inset-0 opacity-50 [background-image:linear-gradient(to_right,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:52px_52px]" />
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 640 700" fill="none">
-        <motion.path d="M84 520 C176 448 132 300 266 284 C422 266 366 128 548 96" stroke="url(#routeGlow)" strokeWidth="10" strokeLinecap="round" strokeDasharray="18 24" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2.8, ease: 'easeInOut' }} />
-        <motion.path d="M116 548 C230 500 292 574 390 474 C486 374 442 272 566 228" stroke="rgba(255,255,255,.46)" strokeWidth="2" strokeDasharray="8 12" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 3.4, delay: 0.2, ease: 'easeInOut' }} />
+        <motion.path d="M84 520 C176 448 132 300 266 284 C422 266 366 128 548 96" stroke="url(#routeGlow)" strokeWidth="10" strokeLinecap="round" strokeDasharray="18 24" initial={reduceMotion ? false : { pathLength: 0 }} animate={reduceMotion ? false : { pathLength: 1 }} transition={reduceMotion ? undefined : { duration: 2.8, ease: [0.42, 0, 0.58, 1] }} />
+        <motion.path d="M116 548 C230 500 292 574 390 474 C486 374 442 272 566 228" stroke="rgba(255,255,255,.46)" strokeWidth="2" strokeDasharray="8 12" initial={reduceMotion ? false : { pathLength: 0 }} animate={reduceMotion ? false : { pathLength: 1 }} transition={reduceMotion ? undefined : { duration: 3.4, delay: 0.2, ease: [0.45, 0, 0.2, 1] }} />
         {[['84', '520'], ['266', '284'], ['548', '96'], ['390', '474']].map(([cx, cy], index) => (
-          <motion.circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="11" fill={index === 2 ? '#111827' : '#facc15'} stroke="white" strokeWidth="7" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4 + index * 0.16, type: 'spring', stiffness: 220 }} />
+          <motion.circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="11" fill={index === 2 ? '#111827' : '#facc15'} stroke="white" strokeWidth="7" initial={reduceMotion ? false : { scale: 0 }} animate={reduceMotion ? false : { scale: 1 }} transition={reduceMotion ? undefined : { delay: 0.35 + index * 0.14, type: 'spring', stiffness: 220, damping: 18 }} />
         ))}
         <defs>
           <linearGradient id="routeGlow" x1="0" y1="0" x2="1" y2="1">
@@ -255,12 +280,12 @@ function RouteCanvas() {
           </linearGradient>
         </defs>
       </svg>
-      <motion.div className="absolute left-8 top-10 rounded-[1.4rem] border border-white/12 bg-white/88 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.18)] backdrop-blur" animate={{ y: [0, -10, 0] }} transition={floatLoop}>
+      <motion.div className="absolute left-8 top-10 rounded-[1.4rem] border border-white/12 bg-white/88 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.18)] backdrop-blur" animate={reduceMotion ? false : { y: [0, -10, 0] }} transition={reduceMotion ? undefined : { ...floatLoop, duration: 7.6 }} >
         <p className="text-xs font-black uppercase tracking-[0.22em] text-foreground/45">Estimate</p>
         <p className="mt-1 font-display text-3xl font-black tracking-[-0.05em]">ETB fare</p>
         <p className="text-sm font-bold text-foreground/55">Distance + time preview</p>
       </motion.div>
-      <motion.div className="absolute bottom-10 left-8 rounded-full bg-[color:var(--color-primary)] px-5 py-3 text-sm font-black text-foreground shadow-[0_20px_50px_rgba(250,204,21,0.28)]" animate={{ x: [0, 10, 0] }} transition={{ ...floatLoop, duration: 4.6 }}>
+      <motion.div className="absolute bottom-10 left-8 rounded-full bg-[color:var(--color-primary)] px-5 py-3 text-sm font-black text-foreground shadow-[0_20px_50px_rgba(250,204,21,0.28)]" animate={reduceMotion ? false : { x: [0, 10, 0] }} transition={reduceMotion ? undefined : { ...floatLoop, duration: 5.4, ease: [0.45, 0, 0.55, 1] }} >
         OTP confirmed
       </motion.div>
     </div>
@@ -268,9 +293,10 @@ function RouteCanvas() {
 }
 
 function PhoneMockup() {
+  const reduceMotion = useReducedMotion()
   const statuses = ['Requested', 'Rider assigned', 'Picked up', 'In transit', 'Delivered']
   return (
-    <motion.div className="absolute left-1/2 top-1/2 z-10 -ml-[155px] w-[310px] rounded-[2.6rem] border-[10px] border-foreground bg-foreground p-4 shadow-[0_28px_90px_rgba(15,23,42,.34)] sm:-ml-[175px] sm:w-[350px]" animate={{ y: ['-50%', 'calc(-50% - 14px)', '-50%'] }} transition={{ ...floatLoop, duration: 6.2 }}>
+    <motion.div className="absolute left-1/2 top-1/2 z-10 -ml-[155px] w-[310px] rounded-[2.6rem] border-[10px] border-foreground bg-foreground p-4 shadow-[0_28px_90px_rgba(15,23,42,.34)] sm:-ml-[175px] sm:w-[350px]" animate={reduceMotion ? false : { y: ['-50%', 'calc(-50% - 14px)', '-50%'] }} transition={reduceMotion ? undefined : { ...floatLoop, duration: 6.9, ease: [0.42, 0, 0.58, 1] }}>
       <div className="mx-auto mb-4 h-1.5 w-20 rounded-full bg-white/18" />
       <div className="rounded-[2rem] bg-[#f8fafc] p-5 text-foreground">
         <div className="flex items-center justify-between gap-3">
@@ -286,7 +312,7 @@ function PhoneMockup() {
         </div>
         <ol className="mt-5 space-y-3">
           {statuses.map((status, index) => (
-            <motion.li key={status} className="flex items-center gap-3 rounded-2xl bg-white px-3 py-2 shadow-[0_10px_30px_rgba(15,23,42,0.06)]" initial={{ opacity: 0.45 }} animate={{ opacity: [0.55, 1, 0.55] }} transition={{ duration: 2.8, delay: index * 0.25, repeat: Infinity }}>
+            <motion.li key={status} className="flex items-center gap-3 rounded-2xl bg-white px-3 py-2 shadow-[0_10px_30px_rgba(15,23,42,0.06)]" initial={reduceMotion ? false : { opacity: 0, y: 10 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.8 }} transition={reduceMotion ? undefined : { duration: 0.45, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}>
               <span className={`h-3 w-3 rounded-full ${index < 3 ? 'bg-[color:var(--color-primary)]' : 'bg-foreground/16'}`} />
               <span className="text-sm font-black text-foreground/72">{status}</span>
             </motion.li>
@@ -298,13 +324,14 @@ function PhoneMockup() {
 }
 
 function OrbitCards() {
+  const reduceMotion = useReducedMotion()
   return (
     <>
-      <motion.div className="absolute right-4 top-12 w-40 rounded-[1.6rem] border border-white/14 bg-white/84 p-4 shadow-[0_20px_48px_rgba(15,23,42,0.16)] backdrop-blur" animate={{ y: [0, -12, 0], rotate: [-1.5, 1.5, -1.5] }} transition={{ ...floatSlow, duration: 7 }}>
+      <motion.div className="absolute right-4 top-12 w-40 rounded-[1.6rem] border border-white/14 bg-white/84 p-4 shadow-[0_20px_48px_rgba(15,23,42,0.16)] backdrop-blur" animate={reduceMotion ? false : { y: [0, -12, 0], rotate: [-1.5, 1.5, -1.5] }} transition={reduceMotion ? undefined : { ...floatSlow, duration: 7.8 }} >
         <p className="text-[11px] font-black uppercase tracking-[0.22em] text-foreground/45">Status</p>
         <p className="mt-1 font-display text-2xl font-black tracking-[-0.05em]">Live handoff</p>
       </motion.div>
-      <motion.div className="absolute right-8 bottom-18 w-52 rounded-[1.6rem] border border-white/14 bg-foreground/92 p-4 text-white shadow-[0_20px_48px_rgba(15,23,42,0.24)] backdrop-blur" animate={{ y: [0, 10, 0], x: [0, -10, 0] }} transition={{ ...floatLoop, duration: 8 }}>
+      <motion.div className="absolute right-8 bottom-18 w-52 rounded-[1.6rem] border border-white/14 bg-foreground/92 p-4 text-white shadow-[0_20px_48px_rgba(15,23,42,0.24)] backdrop-blur" animate={reduceMotion ? false : { y: [0, 10, 0], x: [0, -10, 0] }} transition={reduceMotion ? undefined : { ...floatLoop, duration: 8.8, ease: [0.42, 0, 0.58, 1] }} >
         <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/48">Payout</p>
         <p className="mt-1 font-display text-2xl font-black tracking-[-0.05em]">Wallet ready</p>
         <p className="mt-2 text-sm font-semibold text-white/60">Earnings, incentives, and payout requests.</p>
@@ -316,11 +343,11 @@ function OrbitCards() {
 function TrustStrip() {
   return (
     <section className="relative z-10 -mt-10 px-5 sm:px-8">
-      <div className="mx-auto grid max-w-7xl gap-3 rounded-[2rem] border border-foreground/10 bg-white/82 p-3 shadow-[0_20px_70px_rgba(15,23,42,0.08)] backdrop-blur md:grid-cols-4">
+      <div className="mx-auto grid max-w-7xl gap-3 rounded-[2rem] border border-foreground/10 border-t-4 border-t-[color:var(--color-primary)] bg-white/90 p-3 shadow-[0_22px_78px_rgba(15,23,42,0.1)] backdrop-blur md:grid-cols-4">
         {proofPoints.map(([title, text], index) => (
           <motion.div
             key={title}
-            className="rounded-[1.5rem] border border-transparent p-5 transition duration-300 hover:border-[color:var(--color-primary)]/24 hover:bg-[rgba(250,204,21,0.12)]"
+            className="rounded-[1.5rem] border border-transparent border-t-4 border-t-transparent p-5 transition duration-300 hover:border-[color:var(--color-primary)]/24 hover:border-t-[color:var(--color-primary)] hover:bg-[rgba(250,204,21,0.12)]"
             whileHover={{ y: -5 }}
             style={{ background: index % 2 === 0 ? 'rgba(248,250,252,0.92)' : 'rgba(255,255,255,0.78)' }}
           >
@@ -354,7 +381,7 @@ function JourneyCard({ title, intro, items, image, dark = false }) {
   return (
     <motion.article
       variants={fadeUp}
-      className={`relative overflow-hidden rounded-[2.5rem] border ${dark ? 'border-white/10 bg-foreground text-white' : 'border-foreground/10 bg-white text-foreground'} p-6 shadow-[0_24px_80px_rgba(15,23,42,0.1)] sm:p-8`}
+      className={`relative overflow-hidden rounded-[2.5rem] border ${dark ? 'border-white/10 bg-foreground text-white' : 'border-foreground/10 bg-white text-foreground'} p-6 shadow-[0_24px_80px_rgba(15,23,42,0.1)] ring-1 ring-black/5 sm:p-8`}
     >
       <div className="absolute inset-x-0 top-0 h-56 opacity-35" style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
       <div className={`absolute inset-x-0 top-0 h-56 ${dark ? 'bg-gradient-to-b from-foreground/5 via-foreground/28 to-foreground' : 'bg-gradient-to-b from-white/10 via-white/36 to-white'}`} />
@@ -399,7 +426,7 @@ function HowItWorks() {
               key={number}
               variants={fadeUp}
               whileHover={{ scale: 1.015 }}
-              className="group grid gap-5 rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 backdrop-blur sm:grid-cols-[5rem_1fr] sm:p-7"
+              className="group grid gap-5 rounded-[2rem] border border-white/14 bg-white/[0.08] p-5 backdrop-blur shadow-[0_18px_50px_rgba(0,0,0,0.12)] sm:grid-cols-[5rem_1fr] sm:p-7"
             >
               <span className="grid h-16 w-16 place-items-center rounded-2xl bg-[color:var(--color-primary)] font-display text-2xl font-black text-foreground transition group-hover:rotate-6">
                 {number}
@@ -420,7 +447,7 @@ function HowItWorks() {
 function FeatureRail() {
   return (
     <section id="features" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32">
-      <motion.div className="relative overflow-hidden rounded-[3rem] border border-foreground/10 bg-white p-6 shadow-[0_24px_90px_rgba(15,23,42,.09)] sm:p-10 lg:p-14" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }}>
+      <motion.div className="relative overflow-hidden rounded-[3rem] border border-foreground/12 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-6 shadow-[0_28px_90px_rgba(15,23,42,.1)] sm:p-10 lg:p-14" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }}>
         <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[rgba(250,204,21,0.36)] blur-3xl" />
         <div className="absolute left-10 top-10 h-28 w-28 rounded-full bg-[rgba(99,102,241,0.08)] blur-2xl" />
         <div className="relative grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
@@ -430,7 +457,7 @@ function FeatureRail() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {['Saved addresses', 'Promo and referral support', 'Eligible cancellation before pickup', 'Customer support', 'Vehicle registration', 'Rider online/offline availability', 'Accept or decline offers', 'Wallet and payout history'].map((item) => (
-              <motion.div key={item} className="rounded-full border border-foreground/10 bg-[rgba(248,250,252,0.98)] px-5 py-4 text-sm font-black text-foreground/72 shadow-[0_10px_30px_rgba(15,23,42,0.04)]" whileHover={{ backgroundColor: 'rgba(250,204,21,0.2)', color: '#111827', x: 6 }}>
+              <motion.div key={item} className="rounded-full border border-foreground/10 bg-[rgba(248,250,252,0.98)] px-5 py-4 text-sm font-black text-foreground/72 shadow-[0_10px_30px_rgba(15,23,42,0.04)] transition duration-300 hover:-translate-y-0.5 hover:border-[color:var(--color-primary)]/20 hover:bg-[rgba(250,204,21,0.18)] hover:text-foreground" whileHover={{ backgroundColor: 'rgba(250,204,21,0.2)', color: '#111827', x: 6 }}>
                 {item}
               </motion.div>
             ))}
@@ -475,9 +502,9 @@ function PricingPage() {
         <motion.div variants={fadeUp} className="rounded-[2.5rem] bg-[color:var(--color-primary)] p-8 text-foreground shadow-[0_24px_80px_rgba(250,204,21,.24)]">
           <h3 className="font-display text-4xl font-black leading-[0.95] tracking-[-0.05em]">Fare preview, then confirm.</h3>
           <p className="mt-5 text-lg font-semibold leading-8 text-foreground/65">Customers see an estimated fare and delivery time before submitting. Final launch pricing can reflect route, package, and urgency details.</p>
-          <a className="mt-8 inline-flex rounded-full bg-foreground px-7 py-4 font-black text-white shadow-[0_14px_35px_rgba(15,23,42,.16)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Delivery estimate">
+          <Button href="mailto:hello@ferar.systems?subject=Delivery estimate" variant="secondary" className="mt-8">
             Get an estimate
-          </a>
+          </Button>
         </motion.div>
         <InfoGrid items={pricingFactors} dark />
       </div>
@@ -532,12 +559,12 @@ function HelpPage() {
       <motion.div variants={fadeUp} className="mt-14 rounded-[2.5rem] border border-white/10 bg-white/[0.07] p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
         <p className="max-w-3xl text-lg font-semibold leading-8 text-white/64">Find quick launch answers on the dedicated FAQ page, or contact Ferar support with your route, role, or question.</p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a className="inline-flex rounded-full bg-[color:var(--color-primary)] px-7 py-4 font-black text-foreground shadow-[0_14px_35px_rgba(250,204,21,.18)] transition hover:-translate-y-1" href="/faq">
+          <Button href="/faq" variant="primary">
             Open FAQ
-          </a>
-          <a className="inline-flex rounded-full border border-white/15 bg-white px-7 py-4 font-black text-foreground shadow-sm transition hover:-translate-y-1" href="/contact">
+          </Button>
+          <Button href="/contact" variant="ghost" dark>
             Contact support
-          </a>
+          </Button>
         </div>
       </motion.div>
     </PageShell>
@@ -637,9 +664,9 @@ function StandaloneFaqPage() {
       <section className="bg-foreground px-5 py-24 text-white sm:px-8 lg:py-32">
         <motion.div className="mx-auto max-w-7xl" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger}>
           <InfoGrid items={faqs} dark />
-          <motion.a variants={fadeUp} className="mt-10 inline-flex rounded-full bg-[color:var(--color-primary)] px-7 py-4 font-black text-foreground shadow-[0_14px_35px_rgba(250,204,21,.18)] transition hover:-translate-y-1" href="/contact">
+          <Button href="/contact" variant="primary" className="mt-10">
             Contact support
-          </motion.a>
+          </Button>
         </motion.div>
       </section>
     </StandaloneShell>
@@ -663,9 +690,9 @@ function TwoColumnCard({ intro, leftTitle, leftItems, rightTitle, rightItems, ct
     <div className="mt-14 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
       <motion.div variants={fadeUp} className={`${dark ? 'text-white/68' : 'text-foreground/62'} text-lg font-semibold leading-8`}>
         <p>{intro}</p>
-        <a className={`${dark ? 'bg-[color:var(--color-primary)] text-foreground' : 'bg-foreground text-white'} mt-8 inline-flex rounded-full px-7 py-4 font-black shadow-[0_14px_35px_rgba(15,23,42,.14)] transition hover:-translate-y-1`} href={href}>
+        <Button href={href} variant={dark ? 'primary' : 'secondary'} dark={dark} className="mt-8">
           {cta}
-        </a>
+        </Button>
       </motion.div>
       <div className="grid gap-4 sm:grid-cols-2">
         <ListBlock title={leftTitle} items={leftItems} dark={dark} />
@@ -715,12 +742,12 @@ function FinalCTA() {
             <p className="mt-5 max-w-2xl text-lg font-semibold leading-8 text-foreground/62">For Addis Ababa customers sending packages and riders ready to fulfill deliveries with clear workflows.</p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-            <a className="rounded-full bg-white px-8 py-4 text-center font-black text-foreground shadow-[0_14px_35px_rgba(15,23,42,.12)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Delivery request">
+            <Button href="mailto:hello@ferar.systems?subject=Delivery request" variant="secondary">
               Request delivery
-            </a>
-            <a className="rounded-full bg-foreground px-8 py-4 text-center font-black text-white shadow-[0_14px_35px_rgba(15,23,42,.16)] transition hover:-translate-y-1" href="mailto:hello@ferar.systems?subject=Rider interest">
+            </Button>
+            <Button href="mailto:hello@ferar.systems?subject=Rider interest" variant="primary">
               Become a rider
-            </a>
+            </Button>
           </div>
         </div>
       </motion.div>
