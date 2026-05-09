@@ -97,6 +97,15 @@ const privacyItems = [
 ]
 
 const floatTransition = { duration: 5.5, repeat: Infinity, ease: 'easeInOut' }
+const navLinks = [
+  ['Journeys', '/#journeys'],
+  ['How it works', '/#how'],
+  ['Pricing', '/#pricing'],
+  ['FAQ', '/faq'],
+  ['Contact', '/contact'],
+  ['Terms', '/terms'],
+  ['Privacy', '/privacy'],
+]
 
 function App() {
   const route = window.location.pathname.replace(/\/$/, '') || '/'
@@ -122,23 +131,43 @@ function App() {
 
 function Navigation({ compact = false }) {
   return (
-    <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 sm:px-8">
-      <a href="/" className="group flex items-center gap-3" aria-label="Ferar home">
-        <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-ink font-display text-xl font-black text-primary shadow-[0_18px_36px_rgba(24,23,20,0.16)] transition group-hover:-rotate-6">
-          F<span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-primary" />
-        </span>
-        <span className="font-display text-2xl font-black tracking-[-0.04em]">Ferar</span>
-      </a>
-      <div className="hidden items-center gap-5 rounded-full border border-ink/10 bg-white/70 px-5 py-3 text-sm font-extrabold text-ink/65 shadow-sm backdrop-blur md:flex">
-        <a className="hover:text-ink" href="/#journeys">Journeys</a>
-        <a className="hover:text-ink" href="/#how">How it works</a>
-        <a className="hover:text-ink" href="/#pricing">Pricing</a>
-        <a className="hover:text-ink" href="/faq">FAQ</a>
-        <a className="hover:text-ink" href="/contact">Contact</a>
-        <a className="hover:text-ink" href="/terms">Terms</a>
-        <a className="hover:text-ink" href="/privacy">Privacy</a>
+    <nav className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-6 sm:px-8 md:flex-row md:items-center md:justify-between md:gap-6">
+      <div className="flex items-center justify-between gap-4">
+        <a href="/" className="group flex items-center gap-3" aria-label="Ferar home">
+          <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-ink font-display text-xl font-black text-primary shadow-[0_18px_36px_rgba(24,23,20,0.16)] transition duration-300 group-hover:-rotate-6 group-hover:scale-[1.03]">
+            F<span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-primary" />
+          </span>
+          <span className="font-display text-2xl font-black tracking-[-0.04em]">Ferar</span>
+        </a>
+        <a
+          className="rounded-full bg-ink px-5 py-3 text-sm font-black !text-white shadow-[0_14px_32px_rgba(24,23,20,0.18)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#2c2a22] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-white md:hidden"
+          href={compact ? '/#start' : '#start'}
+        >
+          Get started
+        </a>
       </div>
-      <a className="rounded-full bg-ink px-5 py-3 text-sm font-black !text-white shadow-[0_14px_32px_rgba(24,23,20,0.18)] transition hover:-translate-y-0.5 hover:bg-[#2c2a22]" href={compact ? '/#start' : '#start'}>
+      <div className="-mx-1 flex gap-2 overflow-x-auto pb-1 md:hidden">
+        {navLinks.map(([label, href]) => (
+          <a
+            key={label}
+            className="shrink-0 rounded-full border border-ink/10 bg-white/85 px-4 py-2 text-sm font-extrabold text-ink/68 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-primary hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffdf7]"
+            href={href}
+          >
+            {label}
+          </a>
+        ))}
+      </div>
+      <div className="hidden items-center gap-5 rounded-full border border-ink/10 bg-white/72 px-5 py-3 text-sm font-extrabold text-ink/65 shadow-sm backdrop-blur md:flex md:flex-wrap">
+        {navLinks.map(([label, href]) => (
+          <a className="transition hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white" key={label} href={href}>
+            {label}
+          </a>
+        ))}
+      </div>
+      <a
+        className="hidden rounded-full bg-ink px-5 py-3 text-sm font-black !text-white shadow-[0_14px_32px_rgba(24,23,20,0.18)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#2c2a22] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-white md:inline-flex"
+        href={compact ? '/#start' : '#start'}
+      >
         Get started
       </a>
     </nav>
@@ -179,12 +208,19 @@ function Hero() {
             Ferar helps customers request motorcycle deliveries across Addis Ababa while verified riders accept jobs, update progress, and track earnings.
           </motion.p>
           <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-4 sm:flex-row">
-            <a className="rounded-full bg-primary px-8 py-4 text-center font-black text-ink shadow-[0_18px_42px_rgba(255,214,10,0.38)] transition hover:-translate-y-1 hover:bg-[#ffe45a]" href="#journeys">
+            <a className="rounded-full bg-primary px-8 py-4 text-center font-black text-ink shadow-[0_18px_42px_rgba(255,214,10,0.38)] transition duration-300 hover:-translate-y-1 hover:bg-[#ffe45a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white" href="#journeys">
               See customer flow
             </a>
-            <a className="rounded-full border border-ink/15 bg-white px-8 py-4 text-center font-black text-ink shadow-sm transition hover:-translate-y-1 hover:border-ink/25" href="#rider-journey">
+            <a className="rounded-full border border-ink/15 bg-white px-8 py-4 text-center font-black text-ink shadow-sm transition duration-300 hover:-translate-y-1 hover:border-ink/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-white" href="#rider-journey">
               Rider journey
             </a>
+          </motion.div>
+          <motion.div variants={fadeUp} className="mt-8 grid max-w-2xl gap-3 sm:grid-cols-3">
+            {['Fare preview', 'Live status', 'Proof-ready'].map((item) => (
+              <div key={item} className="rounded-[1.3rem] border border-ink/10 bg-white/78 px-4 py-3 text-sm font-black text-ink/72 shadow-sm backdrop-blur">
+                {item}
+              </div>
+            ))}
           </motion.div>
         </motion.div>
 
@@ -251,10 +287,10 @@ function PhoneMockup() {
 
 function TrustStrip() {
   return (
-    <section className="relative z-10 -mt-8 px-5 sm:px-8">
-      <div className="mx-auto grid max-w-7xl gap-3 rounded-[2rem] border border-ink/10 bg-white/90 p-3 shadow-[0_20px_70px_rgba(24,23,20,0.08)] backdrop-blur md:grid-cols-4">
+    <section className="relative z-10 -mt-10 px-5 sm:px-8">
+      <div className="mx-auto grid max-w-7xl gap-3 rounded-[2rem] border border-ink/10 bg-white/88 p-3 shadow-[0_20px_70px_rgba(24,23,20,0.08)] backdrop-blur md:grid-cols-4">
         {proofPoints.map(([title, text]) => (
-          <motion.div key={title} className="rounded-[1.5rem] p-5 transition hover:bg-[#fff8cf]" whileHover={{ y: -5 }}>
+          <motion.div key={title} className="rounded-[1.5rem] border border-transparent p-5 transition duration-300 hover:border-primary/25 hover:bg-[#fff8cf]" whileHover={{ y: -5 }}>
             <p className="font-display text-xl font-black tracking-[-0.04em]">{title}</p>
             <p className="mt-2 text-sm font-semibold leading-6 text-ink/58">{text}</p>
           </motion.div>
@@ -284,13 +320,14 @@ function JourneySection() {
 function JourneyCard({ title, intro, items, image, dark = false }) {
   return (
     <motion.article variants={fadeUp} className={`relative overflow-hidden rounded-[2.5rem] p-6 sm:p-8 ${dark ? 'bg-ink text-white' : 'bg-white text-ink'} shadow-[0_24px_80px_rgba(24,23,20,0.1)]`}>
-      <div className="absolute inset-x-0 top-0 h-48 opacity-25" style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+      <div className="absolute inset-x-0 top-0 h-56 opacity-35" style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+      <div className={`absolute inset-x-0 top-0 h-56 ${dark ? 'bg-gradient-to-b from-ink/5 via-ink/25 to-ink' : 'bg-gradient-to-b from-white/10 via-white/32 to-white'}`} />
       <div className="relative">
-        <span className="mb-8 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-ink">{title}</span>
+        <span className="mb-8 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-ink shadow-[0_10px_24px_rgba(255,214,10,.24)]">{title}</span>
         <p className={`max-w-xl font-display text-4xl font-black leading-[0.95] tracking-[-0.05em] sm:text-5xl ${dark ? 'text-white' : 'text-ink'}`}>{intro}</p>
         <div className="mt-9 grid gap-3">
           {items.map(([label, text], index) => (
-            <motion.div key={label} className={`grid grid-cols-[3rem_1fr] gap-4 rounded-[1.4rem] p-4 ${dark ? 'bg-white/8' : 'bg-[#fff8cf]'}`} whileHover={{ x: 8 }}>
+            <motion.div key={label} className={`grid grid-cols-[3rem_1fr] gap-4 rounded-[1.4rem] border border-transparent p-4 transition duration-300 ${dark ? 'bg-white/8 hover:border-white/10 hover:bg-white/12' : 'bg-[#fff8cf] hover:border-primary/30 hover:bg-[#fff3a1]'}`} whileHover={{ x: 8 }}>
               <span className="font-display text-3xl font-black text-primary">{index + 1}</span>
               <div>
                 <h3 className="font-black">{label}</h3>
