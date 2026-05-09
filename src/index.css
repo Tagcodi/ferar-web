@@ -1,35 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap');
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Space+Grotesk:wght@600;700;700&display=swap');
+@import 'tailwindcss';
 
 @theme {
-  --color-primary: #ffd60a;
-  --color-ink: #181714;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-display: "Space Grotesk", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --color-background: oklch(0.985 0.008 247);
+  --color-foreground: oklch(0.18 0.02 255);
+  --color-primary: oklch(0.92 0.18 92);
+  --color-primary-strong: oklch(0.85 0.16 92);
+  --color-muted: oklch(0.965 0.01 247);
+  --color-card: oklch(1 0 0);
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Space Grotesk', 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --radius-xl: 1.5rem;
 }
 
 :root {
-  font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #181714;
-  background: #fffdf7;
+  font-family: 'Manrope', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: oklch(0.18 0.02 255);
+  background:
+    radial-gradient(circle at 20% 0%, oklch(0.96 0.08 93 / 0.55), transparent 24%),
+    radial-gradient(circle at 80% 0%, oklch(0.91 0.06 258 / 0.22), transparent 28%),
+    linear-gradient(180deg, oklch(0.985 0.008 247) 0%, oklch(0.977 0.01 247) 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
 }
 
 html {
   scroll-behavior: smooth;
+  background: oklch(0.985 0.008 247);
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% -10%, oklch(0.96 0.08 93 / 0.35), transparent 28%),
+    linear-gradient(180deg, oklch(0.985 0.008 247) 0%, oklch(0.975 0.01 247) 100%);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(transparent 0, transparent 97%, rgba(15, 23, 42, 0.03) 100%),
+    linear-gradient(90deg, transparent 0, transparent 97%, rgba(15, 23, 42, 0.03) 100%);
+  background-size: 42px 42px;
+  mix-blend-mode: soft-light;
 }
 
 * {
   box-sizing: border-box;
+}
+
+section {
+  scroll-margin-top: 5.5rem;
 }
 
 a {
@@ -37,14 +67,18 @@ a {
   text-decoration: none;
 }
 
-::selection {
-  background: #ffd60a;
-  color: #181714;
+a:focus-visible,
+button:focus-visible,
+[role='button']:focus-visible {
+  outline: 2px solid oklch(0.92 0.18 92);
+  outline-offset: 3px;
 }
 
-/* Contrast safety: any CTA/link rendered on Ferar ink stays readable. */
-a.bg-ink,
-button.bg-ink,
-[role="button"].bg-ink {
-  color: #fffdf7 !important;
+::selection {
+  background: oklch(0.92 0.18 92);
+  color: oklch(0.18 0.02 255);
+}
+
+#root {
+  min-height: 100vh;
 }
